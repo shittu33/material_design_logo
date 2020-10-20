@@ -1,0 +1,88 @@
+name: materialdesignlogo
+description: A new Flutter package.
+version: 0.0.1
+#author: AbdulMujeeb
+homepage:
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  auto_size_text: ^2.1.0
+  material_design_icons_flutter: ^4.0.5755
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # To add assets to your package, add an assets section, like this:
+#  assets:
+  #   - images/a_dot_burr.jpeg
+
+  # For details regarding assets in packages, see
+  # https://flutter.dev/assets-and-images/#from-packages
+  #
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # To add custom fonts to your package, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  fonts:
+    - family: x360
+      fonts:
+        - asset: fonts/x360.ttf
+          weight: 400
+    - family: bebas-neue
+      fonts:
+        - asset: fonts/bebas-neue.ttf
+          weight: 600
+    - family: zNestle
+      fonts:
+        - asset: fonts/zNestle.ttf
+          weight: 600
+    - family: cocacola
+      fonts:
+        - asset: fonts/cocacola.ttf
+          weight: 600
+    - family: JosefinSans
+      fonts:
+        - asset: fonts/JosefinSans-Bold.ttf
+          weight: 600
+    - family: Piedra
+      fonts:
+        - asset: fonts/Piedra-Regular.ttf
+          weight: 600
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Bold.ttf
+        - asset: fonts/Roboto-Medium.ttf
+        - asset: fonts/Roboto-Regular.ttf
+          weight: 600
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Bold.ttf
+          weight: 600
+    - family: Marvel
+      fonts:
+        - asset: fonts/Marvel-Regular.ttf
+          weight: 600
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts in packages, see
+  # https://flutter.dev/custom-fonts/#from-packages
