@@ -49,7 +49,7 @@ abstract class ShapeLogo implements LogoProvider {
           shape: shape,
           color: shapeColor ?? Colors.black,
           gradient:
-              shapeColor == null ? (shapeGradient ?? faceBookGradient()) : null,
+              shapeColor == null ? (shapeGradient ?? MdiStyle.colorGradientSample1(rawColor: Colors.blue)) : null,
         );
   }
 

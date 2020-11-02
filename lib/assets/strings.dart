@@ -13,11 +13,12 @@ class TextAsset {
   static String  design = "Design";
   static String microsoft ="Microsoft";
   static String adobe = "Adobe";
+  static String android = "anDROID";
 
 }
 
 class ShadowAsset {
-  static List<BoxShadow> fbTextShadow({
+  static List<BoxShadow> singleShadow({
     Color shadowColor,
     double dx,
     double dy,
@@ -55,7 +56,6 @@ class TextSpanAsset {
               text: "o",
               style: TextStyle(
                 fontFamily:fontFamily,
-
                 color: Colors.yellow,
               ),
             ),
@@ -157,75 +157,6 @@ class TextSpanAsset {
     ];
   }
 
-  static List<InlineSpan> netflix() {
-    return [
-      TextSpan(
-          text: "N",
-          style: TextStyle(
-            fontFamily:'JosefinSans',
-            fontSize: 66,
-            letterSpacing: 3.8,
-            fontWeight: FontWeight.w800,
-            color: Colors.redAccent,
-          ),children: [
-        TextSpan(
-          text: "E",
-          style: TextStyle(
-          ),
-        ),
-        TextSpan(
-          text: "T",
-          style: TextStyle(
-          ),
-        ),
-        TextSpan(
-          text: "F",
-          style: TextStyle(
-          ),
-        ),
-        TextSpan(
-          text: "L",
-          style: TextStyle(
-          ),
-        ),
-        TextSpan(
-          text: "I",
-          style: TextStyle(
-          ),
-        ),
-        TextSpan(
-          text: "X",
-          style: TextStyle(
-          ),
-        ),
-      ]),
-
-    ];
-  }
-
-  static List<InlineSpan> hpTexts() {
-    return [
-      TextSpan(
-          text: "h",
-          style: TextStyle(
-            fontSize: 76,
-            fontStyle: FontStyle.italic,
-            letterSpacing: -5.8,
-            fontWeight: FontWeight.w400,
-            color: Colors.white,
-          )),
-      TextSpan(
-        text: "p",
-        style: TextStyle(
-          fontStyle: FontStyle.italic,
-          color: Colors.white,
-          letterSpacing: -2,
-          fontSize: 50,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    ];
-  }
 
   static List<InlineSpan> ebayTexts() {
     return [

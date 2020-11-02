@@ -47,7 +47,7 @@ class PlainText with LogoProvider {
       textStyle ??
       TextStyle(
           shadows: textShadows,
-          color: fontColor ?? FbStyle.accent,
+          color: fontColor ?? MdiStyle.accent,
           fontSize: textSize(),
           fontWeight: fontWeight ?? FontWeight.bold,
           fontStyle: fontStyle ?? FontStyle.normal,
@@ -84,10 +84,12 @@ class TextShapeLogo extends ShapeLogo {
   final BoxShape shape;
   final double height;
   final double width;
+  final double textHeight;
 
   TextShapeLogo(
     this.height,
     this.width,
+    this.textHeight,
     this.decoration,
     this.shape,
     this.shapeRadius,
@@ -98,7 +100,7 @@ class TextShapeLogo extends ShapeLogo {
     this.shapeShadow,
     this.plainText,
   ) : super(decoration, shapeRadius, borderColor, shapeColor, borderWidth,
-            shapeGradient, shapeShadow, shape, height, width,EdgeInsets.zero);
+            shapeGradient, shapeShadow, shape, height, width, EdgeInsets.zero);
 
   static double exposedCustomSize(height, width) =>
       height ?? (width ?? appBarLogoHeight);
@@ -190,14 +192,18 @@ class TextShapeLogo extends ShapeLogo {
     plainText.text = textData();
     plainText.textStyle = plainText.textStyle ??
         TextStyle(
-            color: plainText.fontColor ?? FbStyle.white,
+            height: textHeight,
+            color: plainText.fontColor ?? MdiStyle.white,
             fontSize: textSize(),
             fontWeight: plainText.fontWeight ?? FontWeight.w700,
             fontStyle: plainText.fontStyle ?? FontStyle.normal,
             fontFamily: plainText.fontFamily,
             shadows: plainText.textShadows,
             letterSpacing: letterSpace());
-    return plainText.child();
+    return Padding(
+      padding: plainText.padding ?? EdgeInsets.zero,
+      child: plainText.child(),
+    );
   }
 }
 
@@ -214,7 +220,7 @@ class IconShapeLogo extends WidgetShapeLogo {
 
   final iconColor;
   final icon;
-  final iconSize;
+  final double iconSize;
 
   IconShapeLogo(
       {this.icon,
@@ -246,9 +252,9 @@ class IconShapeLogo extends WidgetShapeLogo {
             borderWidth,
             shapeGradient,
             shapeShadow,
-          shape);
+            shape);
 
-  static getIconSize(iconSize) => iconSize ?? 33;
+  static getIconSize(double iconSize) => iconSize ?? 33.0;
 }
 
 class WidgetShapeLogo extends ShapeLogo {
@@ -266,21 +272,21 @@ class WidgetShapeLogo extends ShapeLogo {
   final BoxShape shape;
 
   WidgetShapeLogo(
-      this.widget,
-      this.height,
-      this.width,
-      this.padding,
-      this.decoration,
-      this.shapeRadius,
-      this.borderColor,
-      this.shapeColor,
-      this.borderWidth,
-      this.shapeGradient,
-      this.shapeShadow,
-      this.shape, )
-      : assert(widget != null),
+    this.widget,
+    this.height,
+    this.width,
+    this.padding,
+    this.decoration,
+    this.shapeRadius,
+    this.borderColor,
+    this.shapeColor,
+    this.borderWidth,
+    this.shapeGradient,
+    this.shapeShadow,
+    this.shape,
+  )   : assert(widget != null),
         super(decoration, shapeRadius, borderColor, shapeColor, borderWidth,
-            shapeGradient, shapeShadow, shape, height, width,padding);
+            shapeGradient, shapeShadow, shape, height, width, padding);
 
   @override
   EdgeInsetsGeometry contentPadding() => padding;
@@ -314,13 +320,13 @@ class CombinedLogo extends StatelessWidget implements LogoProvider {
   final double gap;
 
   CombinedLogo(this.leadGravity, this.padding, this.lead, this.content,
-      {this.mainAxisAlignment: MainAxisAlignment.start,this.gap});
+      {this.mainAxisAlignment: MainAxisAlignment.start, this.gap});
 
   @override
   TextAlign alignment() => TextAlign.center;
 
   Widget get rawChild {
-    var gap = this.gap??5.0;
+    var gap = this.gap ?? 5.0;
     if (leadGravity == LeadGravity.top) {
       return Column(
           mainAxisSize: MainAxisSize.min,
@@ -363,9 +369,7 @@ class CombinedLogo extends StatelessWidget implements LogoProvider {
 class HSpace extends StatelessWidget {
   final double width;
 
-  const HSpace(
-      [this.width]
-      );
+  const HSpace([this.width]);
 
   @override
   Widget build(BuildContext context) {
