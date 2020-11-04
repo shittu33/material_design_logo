@@ -54,7 +54,7 @@ class MdiLogo extends StatelessWidget {
         shapeColor = null,
         shapeShadow = null;
 
-  MdiLogo.shapeText({
+  MdiLogo.shapedTextLogo({
     this.height,
     this.width,
     this.fontColor,
@@ -164,7 +164,7 @@ class MdiLogo extends StatelessWidget {
         this.textAlign = null,
         fontColor = null;
 
-  MdiLogo.shapeIcon({
+  MdiLogo.shapedIconLogo({
     this.logoGradient,
     this.logoShape: BoxShape.rectangle,
     this.decoration,
@@ -255,7 +255,7 @@ class MdiLogo extends StatelessWidget {
   ///    ),
   /// ```
   ///
-  static Widget autoShapeText({
+  static Widget multiShapedTextLogo({
     String text: 'TEXT',
 
     /// How much space to place between children in a run in the main axis.
@@ -312,7 +312,7 @@ class MdiLogo extends StatelessWidget {
       alignment: alignment,
       children: [
         for (int i = 0; i < text.length; i++)
-          MdiLogo.shapeText(
+          MdiLogo.shapedTextLogo(
             height: height[i],
             width: width[i],
             textHeight: textHeight[i],
@@ -343,7 +343,7 @@ class MdiLogo extends StatelessWidget {
   /// for each letter of the text like [Text.rich()] constructor,but in a simpler way.
   ///
   ///
-  static Widget autoSpanText<T>({
+  static Widget richTextLogo<T>({
     String text: 'TEXT',
     double letterSpacing,
     TextAlign textAlign,
@@ -413,7 +413,7 @@ class MdiLogo extends StatelessWidget {
   }) {
     var firstPart = 0.to(3);
     var secondPart = 3.to(5);
-    return autoSpanText(
+    return richTextLogo(
       textAlign: textAlign,
 
       ///Here we create a map of key text index and value of
@@ -453,21 +453,22 @@ class MdiLogo extends StatelessWidget {
     Map<String, TextStyle> textStyle,
     Map<String, double> fontSize,
     Map<String, Color> fontColor,
+    Map<String, Color> shapeColor,
     Map<String, FontWeight> fontWeight,
     Map<String, FontStyle> fontStyle,
     Map<String, String> fontFamily,
     Map<String, List<Shadow>> textShadows,
-  })=>autoSpanText(
-     text: "BBC",
+  })=>multiShapedTextLogo(
+     text: text??"BBC",
      letterSpacing:letterSpacing,
-     textAlign:textAlign,
      spanLetterSpacing:spanLetterSpacing,
      textStyle:textStyle,
-     fontSize:fontSize,
-     fontColor:fontColor,
+     fontSize:fontSize??~34.0,
+     fontColor:fontColor?? ~Colors.white,
      fontWeight:fontWeight,
      fontStyle:fontStyle,
      fontFamily:fontFamily,
+    shapeColor: shapeColor??~Colors.black,
      textShadows:textShadows,
   );
   static Widget mdiLogoText({
@@ -485,7 +486,7 @@ class MdiLogo extends StatelessWidget {
   }) {
     var firstPart = 0.to(3);
     var secondPart = 3.to(6);
-    return autoSpanText(
+    return richTextLogo(
       textAlign: textAlign,
       spanLetterSpacing:
           spanLetterSpacing ?? {firstPart: -3.8, secondPart: -2.0},
@@ -517,7 +518,7 @@ class MdiLogo extends StatelessWidget {
     Map<String, List<Shadow>> textShadows,
   }) {
     var lastIndex = text.length - 1;
-    return MdiLogo.autoSpanText(
+    return MdiLogo.richTextLogo(
       text: text,
       textAlign: textAlign ?? TextAlign.center,
       textDecoration: textDecoration ??
@@ -553,7 +554,7 @@ class MdiLogo extends StatelessWidget {
     Map<String, List<Shadow>> textShadows,
   }) {
     var lastIndex = text.length - 1;
-    return MdiLogo.autoSpanText(
+    return MdiLogo.richTextLogo(
       text: text,
       textAlign: textAlign ?? TextAlign.center,
       textDecoration: textDecoration ??
@@ -588,7 +589,7 @@ class MdiLogo extends StatelessWidget {
     Map<String, List<Shadow>> textShadows,
   }) {
     var lastIndex = text.length - 1;
-    return MdiLogo.autoSpanText(
+    return MdiLogo.richTextLogo(
       text: text,
       textAlign: textAlign ?? TextAlign.center,
       textDecoration: textDecoration ??
@@ -620,7 +621,7 @@ class MdiLogo extends StatelessWidget {
     Map<String, List<Shadow>> textShadows,
   }) {
     var lastIndex = text.length - 1;
-    return MdiLogo.autoSpanText(
+    return MdiLogo.richTextLogo(
       textAlign: textAlign ?? TextAlign.center,
       text: text,
       letterSpacing: letterSpacing ?? -5,
@@ -652,7 +653,7 @@ class MdiLogo extends StatelessWidget {
     Map<String, List<Shadow>> textShadows,
   }) {
     var lastIndex = text.length - 1;
-    return MdiLogo.autoSpanText(
+    return MdiLogo.richTextLogo(
       textAlign: textAlign ?? TextAlign.center,
       text: text,
       letterSpacing: letterSpacing ?? -4,
@@ -692,8 +693,9 @@ class MdiLogo extends StatelessWidget {
         textShadows: textShadows ?? ShadowAsset.singleShadow(),
       );
 
+
   static MdiLogo facebook({
-    plainLogo: false,
+    bool plainLogo: false,
     double fontSize,
     fontColor,
     double letterSpacing,
@@ -719,7 +721,7 @@ class MdiLogo extends StatelessWidget {
             textShadows: textShadows ?? ShadowAsset.singleShadow(),
           )
         : textShapeData ??
-            MdiLogo.shapeText(
+            MdiLogo.shapedTextLogo(
               textHeight: (isCircle(logoShape) ? 0.001 : null),
               fontColor: fontColor,
               logoGradient: null,
@@ -764,7 +766,7 @@ class MdiLogo extends StatelessWidget {
               letterSpacing: letterSpacing,
               textShadows: textShadows ?? ShadowAsset.singleShadow(),
             )
-          : MdiLogo.shapeText(
+          : MdiLogo.shapedTextLogo(
               fontColor: fontColor,
               logoGradient: null,
               textShadows: textShadows,
@@ -802,7 +804,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo whatsApp(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           icon: MdiIcons.whatsapp,
@@ -811,7 +813,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo instagram(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           icon: MdiIcons.instagram,
@@ -820,7 +822,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo twitter(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           icon: MdiIcons.twitter,
@@ -829,7 +831,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo microsoftWindows(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           icon: MdiIcons.microsoftWindowsClassic,
@@ -838,7 +840,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo snapChat(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           icon: MdiIcons.snapchat,
@@ -847,7 +849,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo apple(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.black,
@@ -856,7 +858,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo android(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.green.shade400,
@@ -865,7 +867,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo youtube(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.red,
@@ -874,7 +876,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo yahoo(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
@@ -883,7 +885,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo googleChrome(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
@@ -892,7 +894,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo googleDrive(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoGradient: MdiStyle.mix2GradientSample(
               start: Colors.yellow, end: Colors.blue),
@@ -903,7 +905,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo googleMaps(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
@@ -912,7 +914,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo github(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.black,
@@ -921,7 +923,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo gitlab(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
@@ -930,7 +932,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo facebookMessenger(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.blue,
@@ -941,7 +943,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo weChat(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.blue,
@@ -952,7 +954,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo wordPress(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.blue,
@@ -963,7 +965,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo email(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.red,
@@ -974,7 +976,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo safari(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.green,
@@ -985,7 +987,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo abjadArabic(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.red,
@@ -996,7 +998,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo scriptText(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.blue,
@@ -1007,7 +1009,7 @@ class MdiLogo extends StatelessWidget {
 
   static MdiLogo ubuntu(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           iconColor: Colors.blue,
@@ -1019,7 +1021,7 @@ class MdiLogo extends StatelessWidget {
 //x360,
   static MdiLogo oralB(
           {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapeIcon(
+      MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.black,
@@ -1064,7 +1066,7 @@ class MdiLogo extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 fontColor: Colors.green),
         lead: lead ??
-            MdiLogo.shapeIcon(
+            MdiLogo.shapedIconLogo(
               icon: MdiIcons.microsoftXbox,
               iconColor: Colors.white,
               shapeColor: Colors.green,
@@ -1090,7 +1092,7 @@ class MdiLogo extends StatelessWidget {
                 text: TextAsset.microsoft,
                 fontColor: Colors.green),
         lead: lead ??
-            MdiLogo.shapeIcon(
+            MdiLogo.shapedIconLogo(
               icon: MdiIcons.microsoftWindowsClassic,
               iconColor: Colors.green,
               shapeColor: Colors.white,
@@ -1111,7 +1113,7 @@ class MdiLogo extends StatelessWidget {
         content: content ??
             MdiLogo.plainText(text: TextAsset.adobe, fontColor: Colors.black),
         lead: lead ??
-            MdiLogo.shapeIcon(
+            MdiLogo.shapedIconLogo(
               icon: MdiIcons.adobe,
               iconColor: Colors.red,
               shapeColor: Colors.white,
@@ -1162,7 +1164,7 @@ class MdiLogo extends StatelessWidget {
               textSpans: TextSpanAsset.mdiLogoTexts(),
             ),
         lead: lead ??
-            MdiLogo.shapeIcon(
+            MdiLogo.shapedIconLogo(
               icon: MdiIcons.materialDesign,
               shapeColor: Colors.pink,
               borderWidth: 1,
