@@ -18,7 +18,7 @@ A Flutter Package for creating cool & simple Logos.
          - [`Shaped IconLogo`](#Shaped-IconLogo)
          - [`Shaped Widget Logo`](#Shaped-WidgetLogo)
      - [`Double Logo`](#Double-Logo)
-     - [`Labeled Logo`](#Label-Logo)
+     - [`Labeled Logo`](#Labeled-Logo)
      - [`Wrap Logos`](#Wrap-Logos)
     - [Support](#Support)
 
@@ -295,7 +295,7 @@ A common variant of Doubled Logo, where you have a Label for a Logo
                );
 ```
 
-### WrapLogos
+### Wrap Logos
 This will wrap any logo type supported by materialdesignlogo Package in
  a single widget, it will wrap each items in a shape specified in [shape] properties,
  even if the item  is of type Text.
