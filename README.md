@@ -8,14 +8,18 @@ A Flutter Package for creating cool & simple Logos.
 - [Installation](#Installation)
 - [Usage](#Usage)
      - [TextLogo](#TextLogo)
-         - [Plain Text Logo](#Plain-Text-Logo)
-         - [Rich Text Logo](#Rich-Text-Logo)
-     - [Shaped TextLogo](#Shaped-TextLogo)
-         - [Single ShapedText Logo](#Single-ShapedText-Logo)
-         - [multi Shaped Logo](#Multi-Shaped-Logo)
-     - [`Shaped IconLogo`](#Shaped-IconLogo)
-     - [`Shaped Widget Logo`](#Shaped-WidgetLogo)
-     - [`Combined Logo`](#Combined-Logo)
+         - [`Plain Text Logo`](#Plain-Text-Logo)
+         - [`Rich Text Logo`](#Rich-Text-Logo)
+    - [Shaped Logo](#Shapes-Logo)
+           - [`Supported Shapes`](#Supported-Shapes)
+           - [`Shaped TextLogo`](#Shaped-TextLogo)
+           - [`Single ShapedText Logo`](#Single-ShapedText-Logo)
+           - [`multi Shaped Logo`](#Multi-Shaped-Logo)
+           - [`Shaped IconLogo`](#Shaped-IconLogo)
+           - [`Shaped Widget Logo`](#Shaped-WidgetLogo)
+     - [`Double Logo`](#Double-Logo)
+     - [`Labeled Logo`](#Label-Logo)
+     - [`Wrap Logos`](#Wrap-Logos)
     - [Support](#Support)
 
 
@@ -40,7 +44,7 @@ import 'package:materialdesignlogo/materialdesignlogo.dart';
 materialdesignlogo package supported different 5 types of Logos namely TextLogo,Shaped TextLogo,Shaped IconLogo,Shaped WidgetLogo and Combined Logo.
 
 ## TextLogo
-### Plain Text Logo
+### `Plain Text Logo`
 Most of the common, simple and elegant logos like facebook and Linkedln were created with ordinary Text with uniform TextSizes,Fonts,Colors,FontWeight and letterSpacing.
 so, let's look at facebook Text Logo design.  
 Let's use a predefined named constructor in MdiLogo class called MdiLogo.plainText, this constructor
@@ -73,10 +77,10 @@ Scaffold(
    ...
 );
 ```
-### Rich Text Logo
+### `Rich Text Logo`
 Most of the common, simple and more elegant logos like Google logo were created with ordinary Text, but with varying TextSizes,Fonts,Colors,FontWeight and letterSpacing.
 so, let's look at Google Logo design
-Let's use a predefined static function of type Widget in MdiLogo class called MdiLogo.richTextLogo(), this behaves as
+Let's use a predefined named constructor of MdiLogo class called MdiLogo.richTextLogo(), this behaves as
 normal Text.rich() constructor of flutter Text() widget,but this function help you define varying properties (e.g colors,fonts...)
 in a very intuitive and simple way unlike nested TextSpans widget in Text.rich. let's see how we use it in designing Google Logo.
 ```dart
@@ -94,6 +98,7 @@ static Widget  googleLogo(){
             lastIndex: Colors.red,
           },
       fontFamily: ~'JosefinSans',
+      package: ~'materialdesignlogo',
       fontWeight: {0: FontWeight.w400, 1.to(lastIndex): FontWeight.w500},
       fontSize: {0: 86, 1.to(lastIndex): 72.0},
     );
@@ -116,7 +121,9 @@ to() function is an extension function on int type defined in materialdesignlogo
 ```
 The symbol '~' is an extension unary operator on any type 'T' defined in materialdesignlogo package.
 ```dart
-fontFamily: ~'JosefinSans' // assigns the fontFamily JosefinSans to all letters of the text.
+fontFamily: ~'JosefinSans', // assigns the fontFamily JosefinSans to all letters of the text.
+package: ~'materialdesignlogo', // the package to load the font from is materialdesignlogo
+
 ```
 ```dart
 fontColor: {
@@ -147,9 +154,24 @@ Scaffold(
    ...
 );
 ```
-### Shaped TextLogo
-#### Single ShapedText Logo
-While there are so many Logos designed with plain Text, there are more elegant Logos designed with some Text in Shaped with a rectangle or circle,  
+
+## Shaped Logo
+
+### `Supported Shapes`
+materialdesignlogo package support 4 shape type for Shaped Logo defined as enum
+in materialdesignlogo file:
+```dart
+enum LogoShape {
+  bevelRectangle,
+  regularRectangle,
+  roundedRectangle,
+  circle,
+}
+```
+### `Shaped TextLogo`
+#### `Single ShapedText Logo`
+While there are so many Logos designed with plain Text, there are more elegant Logos designed with some Text and Shaped with a roundedRectangle or circle  
+other shape,  
 let's see an example of Linkedln Shaped Logo.
 Let's use a named constructor MdiLogo.shapedTextLogo() of the MdiLogo class:
 ```dart
@@ -157,7 +179,7 @@ static MdiLogo linkedln(){
   return MdiLogo.shapedTextLogo(
               text: 'in'
               fontColor: Colors.white ,
-              logoShape: BoxShape.rectangle, // or BoxShape.circle for circular shape
+              logoShape: LogoShape.roundedRectangle, 
               borderColor: Colors.white,
               borderWidth: 2,
               shapeColor: Colors.blue,
@@ -168,13 +190,14 @@ Note: You don't need to redesign this logo because its a predefined static logo 
 ```dart
 MdiLogo.linkedln()
 ```
-#### Multi Shaped Logo
+#### `Multi Shaped Logo`
 There are also some other variety of logos that use multiple shaped Text, for example
 let's see how we can design BBC logo:
 To easily design this logo you can use the named constructor of MdiLogo class named
+MdiLogo.multiShapedTextLogo()
 ```dart
 static Widget bbcLogo(){
-return multiShapedTextLogo(
+return MdiLogo.multiShapedTextLogo(
      text: text??"BBC",
      fontSize:fontSize??~34.0, //define fontSize 34 for all texts
      fontColor:~Colors.white, //define Colors.white for all texts
@@ -187,14 +210,14 @@ Note: BBC Logo is a predefined logo, you can re-use it or customize it by callin
 MdiLogo.bbc(fontColor:Colors.blue),
 ```
 
-### Shaped IconLogo
+### `Shaped IconLogo`
 Another supported type of logo is IconLogo,
-For example let's design flutter logo using MdiLogo.shapedIconLogo() constructor:
+For example let's design twitter logo using MdiLogo.shapedIconLogo() constructor:
 ```dart
  static MdiLogo twitterLogo() =>
       MdiLogo.shapedIconLogo(
           borderWidth: 2,
-          logoShape: BoxShape.rectangle,// or BoxShape.circle
+          logoShape: LogoShape.roundedRectangle,
           icon: MdiIcons.twitter,
           iconColor: Colors.white,
           shapeColor: Colors.blueAccent,
@@ -205,31 +228,31 @@ build your ShapedIconLogo.
 
 Note: twitter Logo is a predefined logo, you can re-use it or customize it by calling MdiLogo.twitter().
 ```dart
-MdiLogo.twitter(logoShape: BoxShape.circle),
+MdiLogo.twitter(logoShape: LogoShape.circle),
 ```
 
 
-### Shaped WidgetLogo
+### `Shaped WidgetLogo`
 If your logo isn't text or icon type, you can define your own widget and pass ir to MdiLogo.shapeWidget()
 as below:
 ```dart
 static Widget shapedGoogleLogo()=>
-        MdiLogo.shapeWidget(
+        MdiLogo.shapedWidget(
           width: 130,
           shapeColor: Colors.white,
           widget: MdiLogo.google(), // this is a predefined Google logo in MdiLogo class
           shapeRadius: BorderRadius.circular(10),
           borderWidth: 2,
-          logoShape: BoxShape.rectangle,
+          logoShape: LogoShape.roundedRectangle,
         ),
 ```
 MdiLogo.google() is a plain Rich text logo, but when passed to shapeWidget, we can give it a shape,  
 and other properties.
 
 
-### Combined Logo
-There are other special scenario where you will have to combine different type of logos.
-In that case you can use the static function combinedLogo() of the MdiLogo class.
+### `Double Logo`
+There are other special scenario where you will have to combine 2 different type of logos.
+In that case you can use the named constructor  MdiLogo.doubleLogo() of the MdiLogo class.
 For example let's create instagram logo by combining instagram icon logo and instagram text logo.
 This will create an instagram logo containing 2 logo type, where the iconLogo is the first
 at the left hand side and plainText logo (containing instagram text) following it.
@@ -237,7 +260,7 @@ The logo is defined as below:
 
 ```dart
  static Widget instagramCombine() =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         gap: 2, // the gap between the two logos
         leadGravity: LeadGravity.start, // place the lead at the beginning(instagram icon logo in this case)
         content: 
@@ -246,6 +269,7 @@ The logo is defined as below:
               fontWeight: FontWeight.w200,
               fontSize: 43,
               fontFamily: 'Billabong',
+              package: ~'materialdesignlogo',
               fontStyle: FontStyle.normal,
               text: "Instagram",
               textShadows: ShadowAsset.singleShadow(),
@@ -257,4 +281,75 @@ The logo is defined as below:
       );
 ```
 
-### Support
+
+### `Labeled Logo`
+A common variant of Doubled Logo, where you have a Label for a Logo
+```dart
+ static Widget facebookLabeled() =>
+               MdiLogo.labeledLogo(
+                 MdiLogo.facebook(),
+                 logoLabel: 'facebook',
+                 size: 70,
+                 logoGravity: LeadGravity.top,
+                 labelData: PlainTextLogo(fontColor: Colors.red),
+               );
+```
+
+### WrapLogos
+This will wrap any logo type supported by materialdesignlogo Package in
+ a single widget, it will wrap each items in a shape specified in [shape] properties,
+ even if the item  is of type Text.
+ Useful for creating group of Social media logos for sharing contents
+ Note: Only MdiLogo widget is supported.
+ see the example below:
+ ```dart
+ static Widget shareButtons() =>
+    MdiLogo.wrapLogos(
+      logos: [
+        MdiLogo.plainLogo(text:'Welcome',letterSpacing:-1.1),
+        MdiLogo.linkedln(),
+        MdiLogo.facebook(),
+        MdiLogo.twitter(),
+        MdiLogo.instagram(),
+        MdiLogo.safari(),
+        MdiLogo.google(),
+        MdiLogo.facebook(plainLogo: true),
+      ],
+      size: 33,
+      shapeRadius: BorderRadius.circular(12),
+    );
+ ```
+ let's create another example to wrap labeledLogo and pass it to a dialog
+like a normal Dialog for sharing content to other Apps on your device  we have shaped ,
+ at the top and label at the bottom:
+
+ ```dartCHANGELOG.md
+ static Widget showShareDialog(BuildContext context) {
+  showDialog(
+              context: context,
+              builder: (c) {
+                return AlertDialog(
+                    title: MdiLogo.wrapLogos(
+                  logos: [
+                        MdiLogo.labeledLogo(
+                          MdiLogo.facebook(),
+                          logoLabel: 'facebook',
+                        ),
+                        MdiLogo.labeledLogo(MdiLogo.instagram(),
+                            logoLabel: 'instagram'),
+                        MdiLogo.labeledLogo(MdiLogo.apple(),
+                            logoLabel: 'apple'),
+                        MdiLogo.labeledLogo(MdiLogo.twitter(),
+                            logoLabel: 'twitter'),
+                        MdiLogo.labeledLogo(MdiLogo.safari(),
+                            logoLabel: 'Safari'),
+                      ],
+                  size: 65,// size of each item
+                  labelLogoGravity: LeadGravity.top, // place the logo at top and label at bottom
+                ));
+              });
+}
+ 
+```
+
+### `Support`

@@ -1,6 +1,6 @@
 name: materialdesignlogo
 description: A new Flutter package.
-version: 0.0.6
+version: 0.0.7
 #author: AbdulMujeeb
 homepage: https://github.com/shittu33/material_design_logo
 
@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   auto_size_text: ^2.1.0
   material_design_icons_flutter: ^4.0.5755
-  readme:
+#  readme:
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -42,63 +42,63 @@ flutter:
   fonts:
     - family: x360
       fonts:
-        - asset: fonts/x360.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/x360.ttf
           weight: 400
     - family: bebas-neue
       fonts:
-        - asset: fonts/bebas-neue.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/bebas-neue.ttf
           weight: 600
     - family: zNestle
       fonts:
-        - asset: fonts/zNestle.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/zNestle.ttf
           weight: 600
     - family: cocacola
       fonts:
-        - asset: fonts/cocacola.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/cocacola.ttf
           weight: 600
     - family: JosefinSans
       fonts:
-        - asset: fonts/JosefinSans-Bold.ttf
-        - asset: fonts/JosefinSans-Regular.ttf
-        - asset: fonts/JosefinSans-Light.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/JosefinSans-Bold.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/JosefinSans-Regular.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/JosefinSans-Light.ttf
     #          weight: 600
     - family: Piedra
       fonts:
-        - asset: fonts/Piedra-Regular.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Piedra-Regular.ttf
           weight: 600
     - family: Roboto
       fonts:
-        - asset: fonts/Roboto-Bold.ttf
-        - asset: fonts/Roboto-Medium.ttf
-        - asset: fonts/Roboto-Regular.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Roboto-Bold.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Roboto-Medium.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Roboto-Regular.ttf
           weight: 600
     - family: Poppins
       fonts:
-        - asset: fonts/Poppins-Bold.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Poppins-Bold.ttf
           weight: 600
     - family: Marvel
       fonts:
-        - asset: fonts/Marvel-Regular.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Marvel-Regular.ttf
           weight: 600
     - family: Cassannet #Logo Cassannet
       fonts:
-        - asset: fonts/Cassannet Plus Regular.otf
+        - asset: packages/materialdesignlogo/assets/fonts/Cassannet Plus Regular.otf
           weight: 600
     - family: droid #Android
       fonts:
-        - asset: fonts/DroidLogo-Regular.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/DroidLogo-Regular.ttf
           weight: 600
     - family: bristle
       fonts:
-        - asset: fonts/Bristle-demo.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Bristle-demo.ttf
           weight: 600
-    - family: Billabong #Palm
+    - family: Billabong #Palm & Instagram
       fonts:
-        - asset: fonts/Billabong.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Billabong.ttf
           weight: 600
     - family: Klarinda #Lemon
       fonts:
-        - asset: fonts/Klarinda Serif bold.ttf
+        - asset: packages/materialdesignlogo/assets/fonts/Klarinda Serif bold.ttf
           weight: 600
 
   #   - family: Trajan Pro

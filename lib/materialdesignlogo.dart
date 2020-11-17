@@ -1,6 +1,7 @@
 library materialdesignlogo;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:materialdesignlogo/assets/style.dart';
 import 'package:materialdesignlogo/basic.dart';
@@ -8,42 +9,64 @@ import 'package:materialdesignlogo/widget_type.dart';
 import 'assets/strings.dart';
 
 class MdiLogo extends StatelessWidget {
+  ///a predefined named constructor  that just behave like normal Text() widget, but have all the style properties of text exposed inside it constructor.
+  /// below is an example of it usage to create a simple facebook text Logo
+  ///```dart
+  ///static MdiLogo  facebookLogo(){
+  ///    return MdiLogo.plainText(
+  ///       fontSize: 50,
+  ///       fontColor: Colors.blue[500],
+  ///       text: 'facebook',
+  ///       letterSpacing: -1.2,
+  ///     )
+  /// }
+  ///```
+  ///
   MdiLogo.plainText({
     this.fontSize,
     this.fontColor,
     this.text,
+    this.width,
+    this.height,
     this.textStyle,
     this.textSpans,
     this.letterSpacing,
+    this.textHeight,
     this.fontWeight,
     this.fontStyle,
     this.fontFamily,
+    String package,
     this.padding,
     this.textShadows,
     this.textAlign,
-    PlainText textData,
+    PlainTextLogo plainTextData,
   })  : this.icon = null,
         this.iconColor = null,
         this.iconSize = null,
-        this.textHeight = null,
-        logo = textData ??
-            PlainText(
-                fontSize: fontSize,
-                letterSpacing: letterSpacing,
-                textShadows: textShadows,
-                text: text,
-                textStyle: textStyle,
-                textAlign: textAlign,
-                fontWeight: fontWeight,
-                fontFamily: fontFamily,
-                fontColor: fontColor,
-                fontStyle: fontStyle,
-                textSpan: textSpans,
-                padding: padding),
+        logo = PlainTextLogo(
+          package: plainTextData?.package ?? package,
+          fontSize: plainTextData?.fontSize ?? fontSize,
+          letterSpacing: plainTextData?.letterSpacing ?? letterSpacing,
+          textShadows: plainTextData?.textShadows ?? textShadows,
+          text: plainTextData?.text ?? text,
+          width: plainTextData?.width ?? width,
+          height: plainTextData?.height ?? height,
+          textHeight: plainTextData?.textHeight ?? textHeight,
+          textStyle: plainTextData?.textStyle ?? textStyle,
+          textAlign: plainTextData?.textAlign ?? textAlign,
+          fontWeight: plainTextData?.fontWeight ?? fontWeight,
+          fontFamily: plainTextData?.fontFamily ?? fontFamily,
+          fontColor: plainTextData?.fontColor ?? fontColor,
+          fontStyle: plainTextData?.fontStyle ?? fontStyle,
+          textSpan: plainTextData?.textSpan ?? textSpans,
+          padding: plainTextData?.padding ?? padding,
+        ),
         plainLogo = true,
-        width = null,
         widget = null,
-        height = null,
+        this.inkWellGesture = null,
+        leadGravity = null,
+        lead = null,
+        content = null,
         fullText = false,
         logoGradient = null,
         logoShape = null,
@@ -52,8 +75,118 @@ class MdiLogo extends StatelessWidget {
         borderColor = null,
         borderWidth = null,
         shapeColor = null,
-        shapeShadow = null;
+        shadowColor = null;
 
+  ///This is a named constructor that behaves as
+  ///normal Text.rich() constructor of flutter Text() widget,but this function help you define varying properties (e.g colors,fonts...)
+  ///in a very intuitive and simple way unlike nested TextSpans widget in Text.rich.
+  /// let's see how we use it in designing Google Logo.
+  ///```dart
+  ///static Widget  googleLogo(){
+  ///  String text='Google';
+  ///  var lastIndex = text.length - 1;
+  ///  return MdiLogo.richTextLogo(
+  ///      text: text,
+  ///      letterSpacing:  -4,
+  ///      fontColor: {
+  ///            [0,3]: Colors.blueAccent,
+  ///            1: Colors.red,
+  ///            2: Colors.yellow,
+  ///            4: Colors.green,
+  ///            lastIndex: Colors.red,
+  ///          },
+  ///      fontFamily: ~'JosefinSans',
+  ///      package: ~'materialdesignlogo',
+  ///      fontWeight: {0: FontWeight.w400, 1.to(lastIndex): FontWeight.w500},
+  ///      fontSize: {0: 86, 1.to(lastIndex): 72.0},
+  ///    );
+  ///}
+  ///```
+  MdiLogo.richTextLogo({
+    this.text: 'TEXT',
+    this.letterSpacing,
+    this.textAlign,
+    this.padding,
+    Map<dynamic, double> spanLetterSpacing,
+    Map<dynamic, double> decorationThickness,
+    Map<dynamic, double> textHeight,
+    Map<dynamic, TextStyle> textStyle,
+    Map<dynamic, double> fontSize,
+    Map<dynamic, Color> fontColor,
+    Map<dynamic, FontWeight> fontWeight,
+    Map<dynamic, FontStyle> fontStyle,
+    Map<dynamic, String> fontFamily,
+    Map<dynamic, String> package,
+    Map<dynamic, TextDecoration> textDecoration,
+    Map<dynamic, TextDecorationStyle> textDecorationStyle,
+    Map<dynamic, List<Shadow>> textShadows,
+    RichTextLogo richTextLogoData,
+  })  : logo = RichTextLogo(
+          text: richTextLogoData?.text ?? text,
+          letterSpacing: richTextLogoData?.letterSpacing ?? letterSpacing,
+          padding: richTextLogoData?.padding ?? padding,
+          textAlign: richTextLogoData?.textAlign ?? textAlign,
+          spanLetterSpacing:
+              richTextLogoData?.spanLetterSpacing ?? spanLetterSpacing,
+          decorationThickness:
+              richTextLogoData?.decorationThickness ?? decorationThickness,
+          textHeight: richTextLogoData?.textHeight ?? textHeight,
+          textStyle: richTextLogoData?.textStyle ?? textStyle,
+          fontSize: richTextLogoData?.fontSize ?? fontSize,
+          fontColor: richTextLogoData?.fontColor ?? fontColor,
+          fontWeight: richTextLogoData?.fontWeight ?? fontWeight,
+          fontStyle: richTextLogoData?.fontStyle ?? fontStyle,
+          fontFamily: richTextLogoData?.fontFamily ?? fontFamily,
+          package: richTextLogoData?.package ?? package,
+          textDecoration: richTextLogoData?.textDecoration ?? textDecoration,
+          textDecorationStyle:
+              richTextLogoData?.textDecorationStyle ?? textDecorationStyle,
+          textShadows: richTextLogoData?.textShadows ?? textShadows,
+        ),
+        this.textStyle = null,
+        this.textSpans = null,
+        this.leadGravity = null,
+        this.lead = null,
+        this.content = null,
+        this.plainLogo = null,
+        this.height = null,
+        this.width = null,
+        this.fontSize = null,
+        this.fontColor = null,
+        this.logoGradient = null,
+        this.fontWeight = null,
+        this.fontStyle = null,
+        this.inkWellGesture = null,
+        this.fontFamily = null,
+        this.textShadows = null,
+        this.logoShape = null,
+        this.decoration = null,
+        this.shapeRadius = null,
+        this.borderColor = null,
+        this.shapeColor = null,
+        this.borderWidth = null,
+        this.shadowColor = null,
+        this.widget = null,
+        this.fullText = null,
+        this.icon = null,
+        this.iconColor = null,
+        this.iconSize = null,
+        this.textHeight = null;
+
+  ///  this is a named constructor that draw a shape around a Text,
+  /// the following example use this constructor to create a shaped Linkedin Text Logo.
+  ///```dart
+  ///static MdiLogo linkedln(){
+  ///  return MdiLogo.shapedTextLogo(
+  ///        text: 'in'
+  ///        fontColor: Colors.white ,
+  ///        logoShape: LogoShape.roundedRectangle, // or LogoShape.circle for circular shape or LogoShape.bevelRectangle
+  ///        borderColor: Colors.white,
+  ///        borderWidth: 2,
+  ///        shapeColor: Colors.blue,
+  ///  );
+  ///}
+  ///```
   MdiLogo.shapedTextLogo({
     this.height,
     this.width,
@@ -64,6 +197,8 @@ class MdiLogo extends StatelessWidget {
     this.fontWeight,
     this.fontStyle,
     this.fontFamily,
+    String package,
+    bool noShape,
     this.textShadows,
     this.logoShape,
     this.decoration,
@@ -71,150 +206,60 @@ class MdiLogo extends StatelessWidget {
     this.borderColor,
     this.textSpans,
     this.borderWidth,
-    this.shapeShadow,
+    this.shadowColor,
     this.fontSize,
     this.letterSpacing,
     this.textAlign,
     this.padding,
     this.shapeColor,
     this.textHeight,
+    double elevation,
     TextShapeLogo textShapeData,
+    this.inkWellGesture,
   })  : this.icon = null,
         this.iconColor = null,
         this.iconSize = null,
-        logo = textShapeData ??
-            TextShapeLogo(
-              height,
-              width,
-              textHeight,
-              decoration,
-              logoShape,
-              shapeRadius,
-              borderColor,
-              shapeColor,
-              borderWidth,
-              logoGradient,
-              shapeShadow ??
-                  [
-                    BoxShadow(color: Colors.grey[700], offset: Offset(-1.5, 2)),
-                  ],
-              PlainText(
-                fontSize: fontSize,
-                letterSpacing: letterSpacing,
-                textShadows: textShadows,
-                text: text,
-                textStyle: textStyle,
-                textAlign: textAlign,
-                fontWeight: fontWeight,
-                fontFamily: fontFamily,
-                fontColor: fontColor,
-                fontStyle: fontStyle,
-                textSpan: textSpans,
-                padding: padding ??
-                    (isCircle(logoShape) && text.length > 2
-                        ? EdgeInsets.all(16)
-                        : EdgeInsets.zero),
-              ),
-            ),
+        logo = TextShapeLogo(
+          height: textShapeData?.height ?? height,
+          noShape: textShapeData?.noShape ?? noShape,
+          width: textShapeData?.width ?? width,
+          elevation: textShapeData?.elevation ?? elevation,
+          inkWellGesture: textShapeData?.inkWellGesture ?? inkWellGesture,
+          textHeight: textShapeData?.textHeight ?? textHeight,
+          decoration: textShapeData?.decoration ?? decoration,
+          shape: textShapeData?.shape ?? logoShape,
+          shapeRadius: textShapeData?.shapeRadius ?? shapeRadius,
+          borderColor: textShapeData?.borderColor ?? borderColor,
+          shapeColor: textShapeData?.shapeColor ?? shapeColor,
+          borderWidth: textShapeData?.borderWidth ?? borderWidth,
+          shapeGradient: textShapeData?.shapeGradient ?? logoGradient,
+          shadowColor: textShapeData?.shadowColor ?? shadowColor,
+          plainText: PlainTextLogo(
+            package: textShapeData?.plainText?.package ?? package,
+            fontSize: textShapeData?.plainText?.fontSize ?? fontSize,
+            letterSpacing:
+                textShapeData?.plainText?.letterSpacing ?? letterSpacing,
+            textShadows: textShapeData?.plainText?.textShadows ?? textShadows,
+            text: textShapeData?.plainText?.text ?? text,
+            textStyle: textShapeData?.plainText?.textStyle ?? textStyle,
+            textAlign: textShapeData?.plainText?.textAlign ?? textAlign,
+            fontWeight: textShapeData?.plainText?.fontWeight ?? fontWeight,
+            fontFamily: textShapeData?.plainText?.fontFamily ?? fontFamily,
+            fontColor: textShapeData?.plainText?.fontColor ?? fontColor,
+            fontStyle: textShapeData?.plainText?.fontStyle ?? fontStyle,
+            textSpan: textShapeData?.plainText?.textSpan ?? textSpans,
+            padding: textShapeData?.plainText?.padding ??
+                padding ,
+          ),
+        ),
         widget = null,
         fullText = false,
+        leadGravity = null,
+        lead = null,
+        content = null,
         plainLogo = false;
 
-  MdiLogo.shapeWidget({
-    this.height,
-    this.width,
-    this.logoGradient,
-    this.logoShape: BoxShape.circle,
-    this.decoration,
-    this.shapeRadius,
-    this.borderColor,
-    this.borderWidth,
-    this.shapeShadow,
-    this.padding,
-    this.widget,
-    this.shapeColor,
-  })  : logo = WidgetShapeLogo(
-            widget,
-            height,
-            width,
-            padding,
-            decoration,
-            shapeRadius ?? BorderRadius.circular(5),
-            borderColor,
-            shapeColor,
-            borderWidth,
-            logoGradient,
-            shapeShadow ?? ShadowAsset.singleShadow(),
-            logoShape),
-        plainLogo = false,
-        text = null,
-        this.textHeight = null,
-        this.icon = null,
-        this.iconColor = null,
-        this.iconSize = null,
-        this.textSpans = null,
-        this.textStyle = null,
-        this.fontWeight = null,
-        this.fontStyle = null,
-        this.fullText = false,
-        this.fontFamily = null,
-        this.textShadows = null,
-        this.fontSize = null,
-        this.letterSpacing = null,
-        this.textAlign = null,
-        fontColor = null;
-
-  MdiLogo.shapedIconLogo({
-    this.logoGradient,
-    this.logoShape: BoxShape.rectangle,
-    this.decoration,
-    this.shapeRadius,
-    this.borderColor,
-    this.borderWidth,
-    this.shapeShadow,
-    this.padding,
-    this.shapeColor,
-    this.icon,
-    this.iconColor,
-    this.iconSize,
-    IconShapeLogo logoData,
-  })  : logo = logoData ??
-            IconShapeLogo(
-                icon: icon ?? MdiIcons.whatsapp,
-                iconColor: iconColor,
-                iconSize: iconSize,
-                padding: padding,
-                decoration: decoration,
-                shapeRadius: shapeRadius ?? BorderRadius.circular(10),
-                borderColor: borderColor,
-                shapeColor: shapeColor,
-                borderWidth: borderWidth,
-                shapeGradient: logoGradient,
-                shapeShadow: shapeShadow ??
-                    [
-                      BoxShadow(
-                          color: Colors.grey[700], offset: Offset(-1.5, 2)),
-                    ],
-                shape: logoShape),
-        plainLogo = false,
-        text = null,
-        this.textSpans = null,
-        this.textStyle = null,
-        this.textHeight = null,
-        this.width = null,
-        this.height = null,
-        this.fontWeight = null,
-        this.widget = null,
-        this.fontStyle = null,
-        this.fullText = false,
-        this.fontFamily = null,
-        this.textShadows = null,
-        this.fontSize = null,
-        this.letterSpacing = null,
-        this.textAlign = null,
-        fontColor = null;
-
-  ///This is a static MdiLogo function that receives Strings of [text], and map of
+  ///This is a MdiLogo named constructor that receives Strings of [text], and map of
   /// of text properties to provide unique style, specify different properties
   /// and shapes for each letter of the text
   ///
@@ -255,20 +300,17 @@ class MdiLogo extends StatelessWidget {
   ///    ),
   /// ```
   ///
-  static Widget multiShapedTextLogo({
+  MdiLogo.multiShapedTextLogo({
     String text: 'TEXT',
-
-    /// How much space to place between children in a run in the main axis.
-    double letterSpacing: 2.0,
-
-    /// How much space to place between the runs themselves in the cross axis.
-    ///
-    /// For example, if [runSpacing] is 10.0, the runs will be spaced at least
-    /// 10.0 logical pixels apart in the cross axis.
+    this.letterSpacing,
     double runSpacing: 1.0,
+    Axis direction,
     WrapAlignment alignment: WrapAlignment.center,
     Map<dynamic, TextStyle> textStyle,
+    Map<dynamic, EdgeInsetsGeometry> padding,
     Map<dynamic, double> height,
+    Map<dynamic, TextAlign> childAlignment,
+    Map<dynamic, bool> noShape,
     Map<dynamic, double> width,
     Map<dynamic, double> textHeight,
     Map<dynamic, double> fontSize,
@@ -278,142 +320,525 @@ class MdiLogo extends StatelessWidget {
     Map<dynamic, FontWeight> fontWeight,
     Map<dynamic, FontStyle> fontStyle,
     Map<dynamic, String> fontFamily,
-    Map<dynamic, List<Shadow>> textShadows,
-    Map<dynamic, BoxShape> logoShape,
+    Map<dynamic, String> package,
+    Map<dynamic, Color> shadowColor,
+    Map<dynamic, LogoShape> logoShape,
     Map<dynamic, BoxDecoration> decoration,
     Map<dynamic, BorderRadius> shapeRadius,
     Map<dynamic, Color> borderColor,
     Map<dynamic, double> borderWidth,
-    Map<dynamic, List<BoxShadow>> shapeShadow,
+    Map<dynamic, double> elevation,
     Map<dynamic, Color> shapeColor,
-  }) {
-    height = height.splitKeysToIndexes(text);
-    width = width.splitKeysToIndexes(text);
-    textHeight = textHeight.splitKeysToIndexes(text);
-    textStyle = textStyle.splitKeysToIndexes(text);
-    fontSize = fontSize.splitKeysToIndexes(text);
-    fontColor = fontColor.splitKeysToIndexes(text);
-    spanLetterSpacing = spanLetterSpacing.splitKeysToIndexes(text);
-    logoGradient = logoGradient.splitKeysToIndexes(text);
-    fontWeight = fontWeight.splitKeysToIndexes(text);
-    fontStyle = fontStyle.splitKeysToIndexes(text);
-    fontFamily = fontFamily.splitKeysToIndexes(text);
-    textShadows = textShadows.splitKeysToIndexes(text);
-    logoShape = logoShape.splitKeysToIndexes(text);
-    decoration = decoration.splitKeysToIndexes(text);
-    shapeRadius = shapeRadius.splitKeysToIndexes(text);
-    borderColor = borderColor.splitKeysToIndexes(text);
-    borderWidth = borderWidth.splitKeysToIndexes(text);
-    shapeShadow = shapeShadow.splitKeysToIndexes(text);
-    shapeColor = shapeColor.splitKeysToIndexes(text);
-    return Wrap(
-      spacing: letterSpacing,
-      runSpacing: runSpacing,
-      alignment: alignment,
-      children: [
-        for (int i = 0; i < text.length; i++)
-          MdiLogo.shapedTextLogo(
-            height: height[i],
-            width: width[i],
-            textHeight: textHeight[i],
-            fontColor: fontColor[i],
-            logoGradient: logoGradient[i],
-            textStyle: textStyle[i],
-            letterSpacing: spanLetterSpacing[i],
-            fontWeight: fontWeight[i],
-            fontStyle: fontStyle[i],
-            fontFamily: fontFamily[i],
-            textShadows: textShadows[i],
-            logoShape: logoShape[i] ?? BoxShape.rectangle,
-            decoration: decoration[i],
-            shapeRadius: shapeRadius[i],
-            borderColor: borderColor[i],
-            borderWidth: borderWidth[i],
-            shapeShadow: shapeShadow[i] ?? ShadowAsset.singleShadow(),
-            text: text[i],
-            fontSize: fontSize[i],
-            shapeColor: shapeColor[i] ?? Colors.grey[800],
-          ),
-      ],
-    );
-  }
+    MultiShapedTextLogo multiShapedTextLogo,
+    this.inkWellGesture,
+  })  : logo = MultiShapedTextLogo(
+          text: multiShapedTextLogo?.text ?? text,
+          noShape: multiShapedTextLogo?.noShape ?? noShape,
+          childAlignment: multiShapedTextLogo?.childAlignment ?? childAlignment,
+          elevation: multiShapedTextLogo?.elevation ?? elevation,
+          inkWellGesture: multiShapedTextLogo?.inkWellGesture ?? inkWellGesture,
+          padding: multiShapedTextLogo?.padding ?? padding,
+          direction: multiShapedTextLogo?.direction ?? direction,
+          letterSpacing: multiShapedTextLogo?.letterSpacing ?? letterSpacing,
+          runSpacing: multiShapedTextLogo?.runSpacing ?? runSpacing,
+          widgetAlignment: multiShapedTextLogo?.widgetAlignment ?? alignment,
+          textStyle: multiShapedTextLogo?.textStyle ?? textStyle,
+          height: multiShapedTextLogo?.height ?? height,
+          width: multiShapedTextLogo?.width ?? width,
+          textHeight: multiShapedTextLogo?.textHeight ?? textHeight,
+          fontSize: multiShapedTextLogo?.fontSize ?? fontSize,
+          fontColor: multiShapedTextLogo?.fontColor ?? fontColor,
+          spanLetterSpacing:
+              multiShapedTextLogo?.spanLetterSpacing ?? spanLetterSpacing,
+          logoGradient: multiShapedTextLogo?.logoGradient ?? logoGradient,
+          fontWeight: multiShapedTextLogo?.fontWeight ?? fontWeight,
+          fontStyle: multiShapedTextLogo?.fontStyle ?? fontStyle,
+          fontFamily: multiShapedTextLogo?.fontFamily ?? fontFamily,
+          package: multiShapedTextLogo?.package ?? package,
+          textShadows: multiShapedTextLogo?.textShadows ?? shadowColor,
+          logoShape: multiShapedTextLogo?.logoShape ?? logoShape,
+          decoration: multiShapedTextLogo?.decoration ?? decoration,
+          shapeRadius: multiShapedTextLogo?.shapeRadius ?? shapeRadius,
+          borderColor: multiShapedTextLogo?.borderColor ?? borderColor,
+          borderWidth: multiShapedTextLogo?.borderWidth ?? borderWidth,
+          shadowColor: multiShapedTextLogo?.shadowColor ?? shadowColor,
+          shapeColor: multiShapedTextLogo?.shapeColor ?? shapeColor,
+        ),
+        this.text = null,
+        this.textStyle = null,
+        this.textAlign = null,
+        this.textSpans = null,
+        this.padding = null,
+        this.plainLogo = null,
+        this.height = null,
+        this.leadGravity = null,
+        this.lead = null,
+        this.content = null,
+        this.width = null,
+        this.fontSize = null,
+        this.fontColor = null,
+        this.logoGradient = null,
+        this.fontWeight = null,
+        this.fontStyle = null,
+        this.fontFamily = null,
+        this.textShadows = null,
+        this.logoShape = null,
+        this.decoration = null,
+        this.shapeRadius = null,
+        this.borderColor = null,
+        this.shapeColor = null,
+        this.borderWidth = null,
+        this.shadowColor = null,
+        this.widget = null,
+        this.fullText = null,
+        this.icon = null,
+        this.iconColor = null,
+        this.iconSize = null,
+        this.textHeight = null;
 
-  ///This is a static helper function that receives Strings of [text], and map of
-  /// text properties to provide unique style and specify different properties
-  /// for each letter of the text like [Text.rich()] constructor,but in a simpler way.
-  ///
-  ///
-  static Widget richTextLogo<T>({
-    String text: 'TEXT',
-    double letterSpacing,
-    TextAlign textAlign,
-    Map<dynamic, double> spanLetterSpacing,
-    Map<dynamic, double> decorationThickness,
-    Map<dynamic, double> textHeight,
-    Map<dynamic, TextStyle> textStyle,
-    Map<dynamic, double> fontSize,
-    Map<dynamic, Color> fontColor,
-    Map<dynamic, FontWeight> fontWeight,
-    Map<dynamic, FontStyle> fontStyle,
-    Map<dynamic, String> fontFamily,
-    Map<dynamic, TextDecoration> textDecoration,
-    Map<dynamic, TextDecorationStyle> textDecorationStyle,
-    Map<dynamic, List<Shadow>> textShadows,
-  }) {
-    decorationThickness = decorationThickness.splitKeysToIndexes(text);
-    textHeight = textHeight.splitKeysToIndexes(text);
-    spanLetterSpacing = spanLetterSpacing.splitKeysToIndexes(text);
-    textStyle = textStyle.splitKeysToIndexes(text);
-    fontSize = fontSize.splitKeysToIndexes(text);
-    fontColor = fontColor.splitKeysToIndexes(text);
-    fontWeight = fontWeight.splitKeysToIndexes(text);
-    fontStyle = fontStyle.splitKeysToIndexes(text);
-    fontFamily = fontFamily.splitKeysToIndexes(text);
-    textShadows = textShadows.splitKeysToIndexes(text);
-    textDecoration = textDecoration.splitKeysToIndexes(text);
-    textDecorationStyle = textDecorationStyle.splitKeysToIndexes(text);
-    return MdiLogo.plainText(
-      textAlign: textAlign,
-      letterSpacing: letterSpacing,
-      textSpans: [
-        for (int i = 0; i < text.length; i++)
-          TextSpan(
-            text: text[i],
-            style: textStyle[i] ??
-                TextStyle(
-                  height: textHeight[i],
-                  decorationThickness: decorationThickness[i],
-                  decorationStyle: textDecorationStyle[i],
-                  decoration: textDecoration[i],
-                  letterSpacing: spanLetterSpacing[i],
-                  fontSize: fontSize[i],
-                  color: fontColor[i],
-                  fontWeight: fontWeight[i],
-                  fontStyle: fontStyle[i],
-                  fontFamily: fontFamily[i],
-                  shadows: textShadows[i],
-                ),
-          )
-      ],
-    );
-  }
+  ///If your logo isn't text or icon type, you can define your own widget to MdiLogo.shapeWidget()
+  ///as below:
+  ///```dart
+  ///static Widget shapedGoogleLogo()=>
+  ///    MdiLogo.shapedWidget(
+  ///      width: 130,
+  ///      shapeColor: Colors.white,
+  ///      widget: MdiLogo.google(), // this is a predefined Google logo in MdiLogo class
+  ///      shapeRadius: BorderRadius.circular(10),
+  ///      borderWidth: 2,
+  ///      logoShape: LogoShape.roundedRectangle,
+  ///    ),
+  ///```
+  MdiLogo.shapedWidget({
+    this.height,
+    this.width,
+    this.logoGradient,
+    this.logoShape,
+    this.decoration,
+    this.shapeRadius,
+    this.borderColor,
+    this.borderWidth,
+    this.shadowColor,
+    double elevation,
+    this.padding,
+    this.widget,
+    bool noShape: false,
+    this.shapeColor,
+    this.inkWellGesture,
+  })  : logo = WidgetShapeLogo(
+            widget,
+            height,
+            width,
+            padding,
+            decoration,
+            shapeRadius ?? BorderRadius.circular(5),
+            borderColor,
+            shapeColor,
+            borderWidth,
+            logoGradient,
+            shadowColor,
+            noShape,
+            elevation,
+            inkWellGesture,
+            logoShape),
+        plainLogo = false,
+        text = null,
+        this.textHeight = null,
+        this.icon = null,
+        leadGravity = null,
+        lead = null,
+        content = null,
+        this.iconColor = null,
+        this.iconSize = null,
+        this.textSpans = null,
+        this.textStyle = null,
+        this.fontWeight = null,
+        this.fontStyle = null,
+        this.fullText = false,
+        this.fontFamily = null,
+        this.textShadows = null,
+        this.fontSize = null,
+        this.letterSpacing = null,
+        this.textAlign = null,
+        fontColor = null;
 
-  static Widget fedX({
+  ///This is a named shapedIconLogo constructor, use to draw shape around an icon
+  ///For example let's design twitter logo use this constructor:
+  ///```dart
+  ///static MdiLogo twitterLogo() =>
+  ///    MdiLogo.shapedIconLogo(
+  ///      borderWidth: 2,
+  ///      logoShape: LogoShape.roundedRectangle,// or LogoShape.circle
+  ///      icon: MdiIcons.twitter,
+  ///      iconColor: Colors.white,
+  ///      shapeColor: Colors.blueAccent,
+  ///    );
+  ///```
+  MdiLogo.shapedIconLogo({
+    this.logoGradient,
+    this.logoShape,
+    this.decoration,
+    this.shapeRadius,
+    this.borderColor,
+    this.borderWidth,
+    this.shadowColor,
+    this.padding,
+    this.shapeColor,
+    this.icon,
+    this.iconColor,
+    this.iconSize,
+    bool noShape: false,
+    double elevation,
+    IconShapeLogoData iconLogoData,
+    this.inkWellGesture,
+  })  : logo = IconShapeLogoData(
+            icon: iconLogoData?.icon ?? icon ?? MdiIcons.whatsapp,
+            iconColor: iconLogoData?.iconColor ?? iconColor,
+            iconSize: iconLogoData?.iconSize ?? iconSize,
+            elevation: iconLogoData?.elevation ?? elevation,
+            inkWellGesture: iconLogoData?.inkWellGesture ?? inkWellGesture,
+            padding: iconLogoData?.padding ?? padding,
+            decoration: iconLogoData?.decoration ?? decoration,
+            shapeRadius: iconLogoData?.shapeRadius ??
+                shapeRadius ??
+                BorderRadius.circular(10),
+            borderColor: iconLogoData?.borderColor ?? borderColor,
+            shapeColor: iconLogoData?.shapeColor ?? shapeColor,
+            borderWidth: iconLogoData?.borderWidth ?? borderWidth,
+            shapeGradient: iconLogoData?.shapeGradient ?? logoGradient,
+            shadowColor: iconLogoData?.shadowColor ?? shadowColor,
+            noShape: iconLogoData?.noShape ?? noShape,
+            shape: iconLogoData?.shape ?? logoShape),
+        plainLogo = false,
+        text = null,
+        this.textSpans = null,
+        this.textStyle = null,
+        this.textHeight = null,
+        this.width = null,
+        this.height = null,
+        leadGravity = null,
+        lead = null,
+        content = null,
+        this.fontWeight = null,
+        this.widget = null,
+        this.fontStyle = null,
+        this.fullText = false,
+        this.fontFamily = null,
+        this.textShadows = null,
+        this.fontSize = null,
+        this.letterSpacing = null,
+        this.textAlign = null,
+        fontColor = null;
+
+  /// A named constructor of MdiLogo Widget that combine two logo to form a single one.
+  ///  where the [lead] is the first
+  /// at the side specified by [LeadGravity] and [content]  will following it.
+  /// For example let's create instagram logo by combining instagram icon logo and instagram text logo.
+  ///This will create an instagram logo containing 2 logo type, where the iconLogo is the first
+  ///at the left hand side and plainText logo (containing instagram text) following it.
+  ///The logo is defined as below:
+  ///
+  ///```dart
+  /// static Widget instagramCombine() =>
+  ///      MdiLogo.doubleLogo(
+  ///        gap: 2, // the gap between the two logos
+  ///        leadGravity: LeadGravity.start, // place the lead at the beginning(instagram icon logo in this case)
+  ///        content:
+  ///            MdiLogo.plainText(//use plainText as the main content
+  ///              fontColor: Colors.black,
+  ///              fontWeight: FontWeight.w200,
+  ///              fontSize: 43,
+  ///              fontFamily: 'Billabong',
+  ///              package: ~'materialdesignlogo',
+  ///              fontStyle: FontStyle.normal,
+  ///              text: "Instagram",
+  ///              textShadows: ShadowAsset.singleShadow(),
+  ///              textAlign: TextAlign.center,
+  ///            ).padOnly(top: 18),
+  ///        lead:  MdiLogo.shapedIconLogo( // use shapedIconLogo with instagram icon as the first logo
+  ///          icon: MdiIcons.instagram,
+  ///          shapeColor: Colors.pinkAccent),
+  ///      );
+  ///```
+  MdiLogo.doubleLogo({
+    this.lead,
+    this.content,
+    this.width,
+    this.height,
+    this.leadGravity,
+    EdgeInsetsGeometry padding,
+    double gap,
+    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.center,
+  })  : logo = DoubleLogo(
+          leadGravity: leadGravity,
+          padding: padding,
+          width: width,
+          height: height,
+          mainAxisAlignment: mainAxisAlignment,
+          lead: lead,
+          content: content,
+          gap: gap,
+        ),
+        this.text = null,
+        this.textStyle = null,
+        this.textSpans = null,
+        this.plainLogo = null,
+        this.inkWellGesture = null,
+        this.fontSize = null,
+        this.fontColor = null,
+        this.logoGradient = null,
+        this.letterSpacing = null,
+        this.fontWeight = null,
+        this.fontStyle = null,
+        this.fontFamily = null,
+        this.textShadows = null,
+        this.logoShape = null,
+        this.decoration = null,
+        this.shapeRadius = null,
+        this.borderColor = null,
+        this.shapeColor = null,
+        this.borderWidth = null,
+        this.shadowColor = null,
+        this.textAlign = null,
+        this.padding = null,
+        this.widget = null,
+        this.fullText = null,
+        this.icon = null,
+        this.iconColor = null,
+        this.iconSize = null,
+        this.textHeight = null;
+
+
+  ///Construct a logo with a label
+  ///A common variant of Doubled Logo, where you have a Label for a Logo
+  ///```dart
+  /// static Widget facebookLabeled() =>
+  ///               MdiLogo.labeledLogo(
+  ///                 MdiLogo.facebook(),
+  ///                 logoLabel: 'facebook',
+  ///                 size: 70,
+  ///                 logoGravity: LeadGravity.top,
+  ///                 labelData: PlainTextLogo(fontColor: Colors.red),
+  ///               );
+  ///```
+  MdiLogo.labeledLogo(
+      MdiLogo logo, {
+        String logoLabel,
+        double size,
+        PlainTextLogo labelData,
+        this.inkWellGesture,
+        this.padding,
+        LeadGravity logoGravity,
+        MainAxisAlignment mainAxisAlignment: MainAxisAlignment.center,
+      })  : logo = LabeledLogo(
+    logo,
+    logoLabel: logoLabel,
+    labelData: labelData,
+    size: size,
+    inkWellGesture: inkWellGesture,
+    padding: padding,
+    mainAxisAlignment: mainAxisAlignment,
+    logoGravity: logoGravity,
+  ),
+        this.text = null,
+        this.textStyle = null,
+        this.textSpans = null,
+        this.plainLogo = null,
+        this.height = null,
+        this.width = null,
+        this.fontSize = null,
+        this.fontColor = null,
+        this.logoGradient = null,
+        this.letterSpacing = null,
+        this.fontWeight = null,
+        this.fontStyle = null,
+        this.fontFamily = null,
+        this.textShadows = null,
+        this.logoShape = null,
+        this.decoration = null,
+        this.shapeRadius = null,
+        this.borderColor = null,
+        this.shapeColor = null,
+        this.borderWidth = null,
+        this.shadowColor = null,
+        this.textAlign = null,
+        this.widget = null,
+        this.fullText = null,
+        this.icon = null,
+        this.iconColor = null,
+        this.iconSize = null,
+        this.textHeight = null,
+        this.leadGravity = null,
+        this.lead = null,
+        this.content = null;
+
+  ///This will wrap any logo type supported by materialdesignlogo Package in
+  /// a single widget, it will wrap each items in a shape specified in [shape] properties,
+  /// even if the item  is of type Text.
+  ///Useful for creating group of Social media logos for sharing contents
+  /// Note: Only MdiLogo widget is supported.
+  /// see the example below:
+  /// ```dart
+  ///    MdiLogo.wrapLogos(
+  ///      logos: [
+  ///        MdiLogo.linkedln(),
+  ///        MdiLogo.facebook(),
+  ///        MdiLogo.twitter(),
+  ///        MdiLogo.instagram(),
+  ///        MdiLogo.safari(),
+  ///        MdiLogo.google(),
+  ///        MdiLogo.facebook(plainLogo: true),
+  ///      ],
+  ///      size: 33,
+  ///      shapeRadius: BorderRadius.circular(12),
+  ///    )
+  /// ```
+///
+///   let's create another example to wrap labeledLogo and pass it to a dialog
+///   like a normal Dialog for sharing content to other Apps on your device  we have shaped ,
+///   at the top and label at the bottom:
+///   ```dart
+///   static Widget showShareDialog(BuildContext context) {
+///     showDialog(
+///         context: context,
+///         builder: (c) {
+///           return AlertDialog(
+///               title: MdiLogo.wrapLogos(
+///                 logos: [
+///                   MdiLogo.labeledLogo(
+///                     MdiLogo.facebook(),
+///                     logoLabel: 'facebook',
+///                   ),
+///                   MdiLogo.labeledLogo(MdiLogo.instagram(),
+///                       logoLabel: 'instagram'),
+///                   MdiLogo.labeledLogo(MdiLogo.apple(),
+///                       logoLabel: 'apple'),
+///                   MdiLogo.labeledLogo(MdiLogo.twitter(),
+///                       logoLabel: 'twitter'),
+///                   MdiLogo.labeledLogo(MdiLogo.safari(),
+///                       logoLabel: 'Safari'),
+///                 ],
+///                 size: 65,// size of each item
+///                 labelLogoGravity: LeadGravity.top, // place the logo at top and label at bottom
+///               ));
+///         });
+///   }
+///
+///   ```
+
+  MdiLogo.wrapLogos({
+    List<MdiLogo> logos,
+
+    ///if specified each of the item will use the value of this  size parameter
+    double size: 33,
+    double runSpacing: 0,
+    double spacing: 0,
+    WrapAlignment alignment: WrapAlignment.start,
+    Axis direction,
+    double elevation,
+
+    ///if specified each of the item will be decorated with the value of this parameter
+    Decoration decoration,
+
+    ///if specified each of the item will use the value of this  shapeRadius parameter
+    BorderRadiusGeometry shapeRadius,
+
+    ///if specified each of the item will use the value of this  borderColor parameter
+    Color borderColor,
+
+    ///if specified each of the item will use the value of this  shapeColor parameter
+    Color shapeColor,
+
+    ///if specified each of the item will use the value of this  fontColor parameter
+    Color childColor,
+
+    ///if specified each of the item will use the value of this  borderWidth parameter
+    double borderWidth,
+
+    ///if specified each of the item will use the value of this  shapeGradient parameter
+    Gradient shapeGradient,
+
+    ///if specified each of the item will use the value of this  shadowColor parameter
+    Color shadowColor,
+
+    ///if specified each of the item will use the value of this  shape parameter
+    LogoShape shape,
+    EdgeInsetsGeometry contPadding,
+    ///the  gravity of logo in [DoubleLogo] if its present in the logo children
+    LeadGravity labelLogoGravity,
+    PlainTextLogo labelLogoData,
+
+    WrapLogos wrapLogos,
+    InkWellGesture Function(int index, LogoProvider logo, List<MdiLogo> logos)
+        inkWellGesture,
+  })  : logo = WrapLogos(
+          direction: direction,
+          logos: wrapLogos?.logos ?? logos,
+          size: wrapLogos?.size ?? size,
+          inkWellGesture: wrapLogos?.inkWellGesture ?? inkWellGesture,
+          runSpacing: wrapLogos?.runSpacing ?? runSpacing,
+          spacing: wrapLogos?.spacing ?? spacing,
+          wrapAlignment: wrapLogos?.wrapAlignment ?? alignment,
+          elevation: wrapLogos?.elevation ?? elevation,
+          decoration: wrapLogos?.decoration ?? decoration,
+          shapeRadius: wrapLogos?.shapeRadius ?? shapeRadius,
+          borderColor: wrapLogos?.borderColor ?? borderColor,
+          shapeColor: wrapLogos?.shapeColor ?? shapeColor,
+          childColor: wrapLogos?.childColor ?? childColor,
+          borderWidth: wrapLogos?.borderWidth ?? borderWidth,
+          shapeGradient: wrapLogos?.shapeGradient ?? shapeGradient,
+          shadowColor: wrapLogos?.shadowColor ?? shadowColor,
+          shape: wrapLogos?.shape ?? shape,
+          contPadding: wrapLogos?.contPadding ?? contPadding,
+          labelLogoGravity: wrapLogos?.labelLogoGravity ?? labelLogoGravity,
+          labelLogoData: wrapLogos?.labelLogoData ?? labelLogoData,
+        ),
+        this.text = null,
+        this.textStyle = null,
+        this.textSpans = null,
+        this.plainLogo = null,
+        this.height = null,
+        this.width = null,
+        this.leadGravity = null,
+        this.inkWellGesture = null,
+        this.lead = null,
+        this.content = null,
+        this.fontSize = null,
+        this.fontColor = null,
+        this.logoGradient = null,
+        this.letterSpacing = null,
+        this.fontWeight = null,
+        this.fontStyle = null,
+        this.fontFamily = null,
+        this.textShadows = null,
+        this.logoShape = null,
+        this.decoration = null,
+        this.shapeRadius = null,
+        this.borderColor = null,
+        this.shapeColor = null,
+        this.borderWidth = null,
+        this.shadowColor = null,
+        this.textAlign = null,
+        this.padding = null,
+        this.widget = null,
+        this.fullText = null,
+        this.icon = null,
+        this.iconColor = null,
+        this.iconSize = null,
+        this.textHeight = null;
+
+  static MdiLogo fedX({
     String text: "FedEx",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<String, List<Shadow>> textShadows,
+    EdgeInsetsGeometry padding,
+    RichTextLogo richTextLogoData,
   }) {
     var firstPart = 0.to(3);
     var secondPart = 3.to(5);
-    return richTextLogo(
+    return MdiLogo.richTextLogo(
+      richTextLogoData: richTextLogoData,
+      padding: padding,
       textAlign: textAlign,
 
       ///Here we create a map of key text index and value of
@@ -424,10 +849,8 @@ class MdiLogo extends StatelessWidget {
       ///```dart
       ///         spanLetterSpacing: spanLetterSpacing ?? {'Fed' : -5.8, 'Ex': -2},
       /// ```
-      spanLetterSpacing:
-          spanLetterSpacing ?? {firstPart: -5.8, secondPart: -2.0},
+      spanLetterSpacing: {firstPart: -5.8, secondPart: -2.0},
       text: text,
-      textStyle: textStyle,
 
       /// Here we use the extension unary operator '~' declared below this [materialdesignlogo]
       /// file to map each letter with the same value '40.0'
@@ -435,242 +858,195 @@ class MdiLogo extends StatelessWidget {
       ///```dart
       ///         fontSize: fontSize ?? {'FedEx' : 40,},
       /// ```
-      fontSize: fontSize ?? ~40.0,
-      fontColor:
-          fontColor ?? {firstPart: Colors.deepPurple, secondPart: Colors.red},
-      fontWeight: fontWeight ?? ~FontWeight.w600,
-      fontStyle: fontStyle,
-      fontFamily: fontFamily ?? ~'JosefinSans',
-      textShadows: textShadows ?? ~ShadowAsset.singleShadow(),
+      fontSize: ~40.0,
+      fontColor: {firstPart: Colors.deepPurple, secondPart: Colors.red},
+      fontWeight: ~FontWeight.w600,
+      fontFamily: ~'JosefinSans',
+      package: ~'materialdesignlogo',
+      textShadows: ~ShadowAsset.singleShadow(),
     );
   }
 
-  static Widget bbc({
+  static MdiLogo bbc({
     String text: "BBC",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, Color> shapeColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<String, List<Shadow>> textShadows,
-  })=>multiShapedTextLogo(
-     text: text??"BBC",
-     letterSpacing:letterSpacing,
-     spanLetterSpacing:spanLetterSpacing,
-     textStyle:textStyle,
-     fontSize:fontSize??~34.0,
-     fontColor:fontColor?? ~Colors.white,
-     fontWeight:fontWeight,
-     fontStyle:fontStyle,
-     fontFamily:fontFamily,
-    shapeColor: shapeColor??~Colors.black,
-     textShadows:textShadows,
-  );
-  static Widget mdiLogoText({
+    MultiShapedTextLogo multiShapedTextLogo,
+  }) =>
+      MdiLogo.multiShapedTextLogo(
+        text: text ?? "BBC",
+        letterSpacing: letterSpacing,
+        fontSize: ~34.0,
+        fontColor: ~Colors.white,
+        shapeColor: ~Colors.black,
+        multiShapedTextLogo: multiShapedTextLogo,
+      );
+
+  static MdiLogo mdiLogoText({
     String text: "MdiLogo",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<String, List<Shadow>> textShadows,
+    EdgeInsetsGeometry padding,
+    RichTextLogo richTextLogoData,
   }) {
     var firstPart = 0.to(3);
     var secondPart = 3.to(6);
-    return richTextLogo(
+    return MdiLogo.richTextLogo(
+      richTextLogoData: richTextLogoData,
       textAlign: textAlign,
-      spanLetterSpacing:
-          spanLetterSpacing ?? {firstPart: -3.8, secondPart: -2.0},
+      spanLetterSpacing: {firstPart: -3.8, secondPart: -2.0},
       text: text,
-      textStyle: textStyle,
-      fontSize: fontSize ?? {firstPart: 60.0, secondPart: 70},
-      fontColor:
-          fontColor ?? {firstPart: Colors.deepPurple, secondPart: Colors.red},
-      fontWeight: fontWeight ?? ~FontWeight.w600,
-      fontStyle: fontStyle,
-      fontFamily: fontFamily ?? ~'Piedra',
-      textShadows: textShadows ?? ~ShadowAsset.singleShadow(),
+      padding: padding,
+      fontSize: {firstPart: 60.0, secondPart: 70},
+      fontColor: {firstPart: Colors.deepPurple, secondPart: Colors.red},
+      fontWeight: ~FontWeight.w600,
+      fontFamily: ~'Piedra',
+      package: ~'materialdesignlogo',
+      textShadows: ~ShadowAsset.singleShadow(),
     );
   }
 
-  static Widget nestle({
+  static MdiLogo nestle({
     String text: "Nestle",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<dynamic, TextDecoration> textDecoration,
-    Map<dynamic, TextDecorationStyle> textDecorationStyle,
-    Map<String, List<Shadow>> textShadows,
+    EdgeInsetsGeometry padding,
+    RichTextLogo richTextLogoData,
   }) {
     var lastIndex = text.length - 1;
     return MdiLogo.richTextLogo(
+      richTextLogoData: richTextLogoData,
       text: text,
+      padding: padding,
       textAlign: textAlign ?? TextAlign.center,
-      textDecoration: textDecoration ??
-          {
-            [1, 2, lastIndex]: TextDecoration.overline
-          },
-      fontColor: fontColor ?? ~Colors.red,
-      fontWeight: fontWeight ?? ~FontWeight.w400,
-      fontFamily: fontFamily ?? ~'Roboto',
-      fontSize: fontSize ??
-          {
-            [0, 3, 4]: 76.0,
-            1.to(2): 57,
-            lastIndex: 58
-          },
-      spanLetterSpacing: spanLetterSpacing ?? {0: -8.4, 1.to(2): -4.0, 4: -9},
+      textDecoration: {
+        [1, 2, lastIndex]: TextDecoration.overline
+      },
+      fontColor: ~Colors.red,
+      fontWeight: ~FontWeight.w400,
+      fontFamily: ~'Roboto',
+      package: ~'materialdesignlogo',
+      fontSize: {
+        [0, 3, 4]: 76.0,
+        1.to(2): 57,
+        lastIndex: 58
+      },
+      spanLetterSpacing: {0: -8.4, 1.to(2): -4.0, 4: -9},
     );
   }
 
-  static Widget nescafe({
+  static MdiLogo nescafe({
     String text: "Nescafe",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<dynamic, TextDecoration> textDecoration,
-    Map<dynamic, TextDecorationStyle> textDecorationStyle,
-    Map<String, List<Shadow>> textShadows,
+    EdgeInsetsGeometry padding,
+    RichTextLogo richTextLogoData,
   }) {
     var lastIndex = text.length - 1;
     return MdiLogo.richTextLogo(
+      padding: padding,
+      richTextLogoData: richTextLogoData,
       text: text,
       textAlign: textAlign ?? TextAlign.center,
-      textDecoration: textDecoration ??
-          {'escaf': TextDecoration.overline, lastIndex: TextDecoration.none},
-      fontColor: fontColor ?? ~Colors.black,
-      fontWeight: fontWeight ?? ~FontWeight.w400,
-      fontFamily: fontFamily ?? ~'Roboto',
-      fontSize: fontSize ??
-          {
-            [0]: 76.0,
-            1.to(5): 57,
-            lastIndex: 58
-          },
-      spanLetterSpacing: spanLetterSpacing ?? {0: -8.8, 1.to(5): -4.0, 6: -8},
+      textDecoration: {
+        'escaf': TextDecoration.overline,
+        lastIndex: TextDecoration.none
+      },
+      fontColor: ~Colors.deepOrange,
+      fontWeight: ~FontWeight.w400,
+      fontFamily: ~'Roboto',
+      package: ~'materialdesignlogo',
+      fontSize: {
+        [0]: 76.0,
+        1.to(5): 57,
+        lastIndex: 58
+      },
+      spanLetterSpacing: {0: -8.8, 1.to(5): -4.0, 6: -8},
     );
   }
 
-
-  static Widget ferrari({
+  static MdiLogo ferrari({
     String text: "Ferrari",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<dynamic, TextDecoration> textDecoration,
-    Map<dynamic, TextDecorationStyle> textDecorationStyle,
-    Map<String, List<Shadow>> textShadows,
+    EdgeInsetsGeometry padding,
+    RichTextLogo richTextLogoData,
   }) {
     var lastIndex = text.length - 1;
     return MdiLogo.richTextLogo(
+      richTextLogoData: richTextLogoData,
       text: text,
+      padding: padding,
       textAlign: textAlign ?? TextAlign.center,
-      textDecoration: textDecoration ??
-          {'errari': TextDecoration.overline,},
+      textDecoration: {
+        'errari': TextDecoration.overline,
+      },
       decorationThickness: ~2.2,
-      fontColor: fontColor ?? ~Colors.black,
-      fontWeight: fontWeight ?? ~FontWeight.w200 &{'errari':FontWeight.w300},
-      fontFamily: fontFamily ?? ~'Roboto',
-      fontSize: fontSize ??
-          {
-            [0]: 76.0,
-            1.to(lastIndex): 55.4,
-          },
-      spanLetterSpacing: spanLetterSpacing ?? {0: -8.8, 1.to(5): -4.0, 6: -8},
+      fontColor: ~Colors.indigoAccent,
+      fontWeight: ~FontWeight.w200 & {'errari': FontWeight.w300},
+      fontFamily: ~'Roboto',
+      package: ~'materialdesignlogo',
+      fontSize: {
+        [0]: 76.0,
+        1.to(lastIndex): 55.4,
+      },
+      spanLetterSpacing: {0: -8.8, 1.to(5): -4.0, 6: -8},
     );
   }
 
-  static Widget ebay({
+  static MdiLogo ebay({
     String text: "ebay",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<String, List<Shadow>> textShadows,
+    EdgeInsetsGeometry padding,
+    RichTextLogo richTextLogoData,
   }) {
     var lastIndex = text.length - 1;
     return MdiLogo.richTextLogo(
+      padding: padding,
+      richTextLogoData: richTextLogoData,
       textAlign: textAlign ?? TextAlign.center,
       text: text,
       letterSpacing: letterSpacing ?? -5,
-      fontColor: fontColor ??
-          {
-            0: Colors.red,
-            1: Colors.blueAccent,
-            2: Colors.yellow,
-            3: Colors.lightGreen,
-          },
+      fontColor: {
+        0: Colors.red,
+        1: Colors.blueAccent,
+        2: Colors.yellow,
+        3: Colors.lightGreen,
+      },
       textShadows: ~ShadowAsset.singleShadow(),
-      fontWeight:
-          fontWeight ?? {0: FontWeight.w500, 1.to(lastIndex): FontWeight.w600},
-      fontSize: fontSize ?? {0: 96, 1.to(lastIndex): 82.0},
+      fontWeight: {0: FontWeight.w500, 1.to(lastIndex): FontWeight.w600},
+      fontSize: {0: 96, 1.to(lastIndex): 82.0},
     );
   }
 
-  static Widget google({
+  static MdiLogo google({
     String text: "Google",
     double letterSpacing,
     TextAlign textAlign,
-    Map<String, double> spanLetterSpacing,
-    Map<String, TextStyle> textStyle,
-    Map<String, double> fontSize,
-    Map<String, Color> fontColor,
-    Map<String, FontWeight> fontWeight,
-    Map<String, FontStyle> fontStyle,
-    Map<String, String> fontFamily,
-    Map<String, List<Shadow>> textShadows,
+    EdgeInsetsGeometry padding,
+    RichTextLogo richTextLogoData,
   }) {
     var lastIndex = text.length - 1;
     return MdiLogo.richTextLogo(
+      richTextLogoData: richTextLogoData,
       textAlign: textAlign ?? TextAlign.center,
       text: text,
+      padding: padding,
       letterSpacing: letterSpacing ?? -4,
       textShadows: ~ShadowAsset.singleShadow(),
-      fontColor: fontColor ??
-          {
-            0: Colors.blueAccent,
-            1: Colors.red,
-            2: Colors.yellow,
-            3: Colors.blueAccent,
-            4: Colors.green,
-            5: Colors.red,
-          },
-      fontFamily: fontFamily ?? {0: 'JosefinSans', 1.to(5): 'JosefinSans'},
-      fontWeight:
-          fontWeight ?? {0: FontWeight.w400, 1.to(lastIndex): FontWeight.w500},
-      fontSize: fontSize ?? {0: 86, 1.to(lastIndex): 72.0},
+      fontColor: {
+        0: Colors.blueAccent,
+        1: Colors.red,
+        2: Colors.yellow,
+        3: Colors.blueAccent,
+        4: Colors.green,
+        5: Colors.red,
+      },
+      package: ~'materialdesignlogo',
+      fontFamily: {0: 'JosefinSans', 1.to(5): 'JosefinSans'},
+      fontWeight: {0: FontWeight.w400, 1.to(lastIndex): FontWeight.w500},
+      fontSize: {0: 86, 1.to(lastIndex): 72.0},
     );
   }
 
@@ -680,10 +1056,10 @@ class MdiLogo extends StatelessWidget {
     double letterSpacing,
     fontWeight,
     textShadows,
-    PlainText textData,
+    PlainTextLogo textData,
   }) =>
-      textData ??
       MdiLogo.plainText(
+        plainTextData: textData,
         fontSize: fontSize ?? 66,
         fontColor: fontColor ?? Colors.redAccent,
         text: 'NETFLIX',
@@ -693,54 +1069,106 @@ class MdiLogo extends StatelessWidget {
         textShadows: textShadows ?? ShadowAsset.singleShadow(),
       );
 
-
   static MdiLogo facebook({
     bool plainLogo: false,
     double fontSize,
     fontColor,
     double letterSpacing,
     textShadows,
-    logoShape: BoxShape.rectangle,
+    LogoShape logoShape: LogoShape.roundedRectangle,
     fullText: false,
     borderColor,
     double borderWidth,
     shapeShadow,
     shapeColor,
-    PlainText textData,
+    PlainTextLogo textData,
     TextShapeLogo textShapeData,
   }) {
     var inferTextSize = TextShapeLogo.calculateTextSize(
         fontSize, null, null, isCircle(logoShape));
     return plainLogo
         ? MdiLogo.plainText(
-            textData: textData,
+            plainTextData: textData,
             fontSize: fontSize,
             fontColor: fontColor,
             text: TextAsset.fbLong,
             letterSpacing: letterSpacing,
-            textShadows: textShadows ?? ShadowAsset.singleShadow(),
+            textShadows: textShadows,
           )
-        : textShapeData ??
-            MdiLogo.shapedTextLogo(
-              textHeight: (isCircle(logoShape) ? 0.001 : null),
-              fontColor: fontColor,
-              logoGradient: null,
-              textShadows: textShadows,
-              logoShape: logoShape,
-              shapeRadius: BorderRadius.circular(10),
-              borderColor: borderColor,
-              borderWidth: borderWidth,
-              shapeShadow: textShadows ?? ShadowAsset.singleShadow(),
-              text: (isCircle(logoShape) || !fullText
-                  ? TextAsset.fbShort
-                  : TextAsset.fbLong),
-              fontSize: fontSize,
-              letterSpacing: letterSpacing,
-              padding: (isCircle(logoShape)
-                  ? EdgeInsets.only(top: inferTextSize - 2, left: 2)
-                  : EdgeInsets.only(top: inferTextSize * 0.08)),
-              shapeColor: shapeColor,
-            );
+        : MdiLogo.shapedTextLogo(
+            textShapeData: textShapeData,
+            textHeight: (isCircle(logoShape) ? 0.001 : null),
+            fontColor: fontColor,
+            logoGradient: null,
+            textShadows: textShadows,
+            logoShape: logoShape,
+            shapeRadius:
+                textShapeData?.shapeRadius ?? BorderRadius.circular(10),
+            borderColor: borderColor,
+            borderWidth: borderWidth,
+            text: (isCircle(logoShape) || !fullText
+                ? TextAsset.fbShort
+                : TextAsset.fbLong),
+            fontSize: fontSize,
+            letterSpacing: letterSpacing,
+            padding: (isCircle(logoShape)
+                ? EdgeInsets.only(top: inferTextSize - 2, left: 2)
+                : EdgeInsets.only(top: inferTextSize * 0.08)),
+            shapeColor: shapeColor,
+          );
+  }
+
+  static MdiLogo hp({
+    double fontSize,
+    double letterSpacing,
+    textShadows,
+    LogoShape logoShape: LogoShape.circle,
+    borderColor,
+    double borderWidth,
+    shapeShadow,
+    shapeColor,
+    PlainTextLogo textData,
+    RichTextLogo richTextLogo,
+  }) {
+    fontSize = fontSize ?? 45;
+    var inferTextSize = TextShapeLogo.calculateTextSize(
+        fontSize, null, null, isCircle(logoShape));
+    return MdiLogo.shapedWidget(
+      widget: MdiLogo.multiShapedTextLogo(
+//        richTextLogoData: richTextLogo,
+        noShape: {0.to(2): true},
+        direction: Axis.horizontal,
+//        textHeight: ~(isCircle(logoShape) ? 0.001 : null),
+        textHeight: {
+          0: (isCircle(logoShape) ? 1.00 : null),
+          1: (isCircle(logoShape) ? 0.2 : null),
+        },
+//        package: ~'materialdesignlogo',fontFamily: ~'Marvel',
+        fontColor: ~Colors.white,
+//        textShadows: ~textShadows,
+        childAlignment: ~TextAlign.start,
+        text: 'hp',
+        fontStyle: ~FontStyle.italic,
+        fontSize: ~fontSize,
+        padding: {
+          0: (isCircle(logoShape)
+              ? EdgeInsets.only(bottom: inferTextSize - 2, left: 9)
+              : EdgeInsets.zero),
+          1: (isCircle(logoShape)
+              ? EdgeInsets.only(
+                  top: inferTextSize - 2,
+                )
+              : EdgeInsets.zero),
+        },
+        letterSpacing: -2,
+//        spanLetterSpacing: ~letterSpacing,
+      ),
+      logoGradient: null,
+      logoShape: logoShape,
+      borderColor: borderColor,
+      borderWidth: borderWidth,
+      shapeColor: shapeColor,
+    );
   }
 
   static MdiLogo linkedln({
@@ -749,17 +1177,18 @@ class MdiLogo extends StatelessWidget {
     fontColor,
     double letterSpacing,
     textShadows,
-    logoShape: BoxShape.rectangle,
+    LogoShape logoShape: LogoShape.roundedRectangle,
     fullText: false,
     borderColor,
     double borderWidth,
     shapeShadow,
     shapeColor,
-    PlainText textData,
+    PlainTextLogo textData,
     TextShapeLogo textShapeData,
   }) =>
-      textData ?? plainLogo
+      plainLogo
           ? MdiLogo.plainText(
+              plainTextData: textData,
               fontSize: fontSize,
               fontColor: fontColor,
               text: TextAsset.linkedlnLong,
@@ -767,14 +1196,16 @@ class MdiLogo extends StatelessWidget {
               textShadows: textShadows ?? ShadowAsset.singleShadow(),
             )
           : MdiLogo.shapedTextLogo(
+              textShapeData: textShapeData,
               fontColor: fontColor,
               logoGradient: null,
               textShadows: textShadows,
               logoShape: logoShape,
-              shapeRadius: BorderRadius.circular(10),
+              shapeRadius:
+                  textShapeData?.shapeRadius ?? BorderRadius.circular(10),
               borderColor: borderColor,
               borderWidth: borderWidth,
-              shapeShadow: textShadows ?? ShadowAsset.singleShadow(),
+              shadowColor: textShadows,
               text: (isCircle(logoShape) || !fullText
                   ? TextAsset.linkedlnShort
                   : TextAsset.linkedlnLong),
@@ -783,117 +1214,115 @@ class MdiLogo extends StatelessWidget {
               shapeColor: shapeColor,
             );
 
-  static MdiLogo cocacola({
-    double fontSize,
-    fontColor,
-    double letterSpacing,
-    fontWeight,
-    textShadows,
-    PlainText textData,
-  }) =>
-      textData ??
-      MdiLogo.plainText(
-        fontSize: fontSize,
-        fontColor: fontColor,
-        text: 'Coca.Cola',
-        letterSpacing: letterSpacing,
-        fontWeight: fontWeight,
-        fontFamily: 'cocacola',
-        textShadows: textShadows ?? ShadowAsset.singleShadow(),
-      );
-
+  /// IconShape Logo Template samples
   static MdiLogo whatsApp(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape,
+          double borderWidth,
+          double iconSize,
+          IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
+          iconSize: iconSize,
           icon: MdiIcons.whatsapp,
           shapeColor: Colors.green,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo instagram(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape,
+          double borderWidth,
+          double iconSize,
+          IconShapeLogoData iconLogoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           icon: MdiIcons.instagram,
+          iconSize: iconSize,
           shapeColor: Colors.pinkAccent,
-          logoData: logoData);
+          iconLogoData: iconLogoData);
 
   static MdiLogo twitter(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape,
+          double borderWidth,
+          double iconSize,
+          IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
+          iconSize: iconSize,
           icon: MdiIcons.twitter,
           shapeColor: Colors.blueAccent,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo microsoftWindows(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape,
+          double borderWidth,
+          double iconSize,
+          IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
+          iconSize: iconSize,
           icon: MdiIcons.microsoftWindowsClassic,
           shapeColor: Colors.blueAccent,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo snapChat(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           icon: MdiIcons.snapchat,
           shapeColor: Colors.amber,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo apple(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.black,
           icon: MdiIcons.apple,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo android(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.green.shade400,
           icon: MdiIcons.android,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo youtube(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.red,
           icon: MdiIcons.youtube,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo yahoo(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
           icon: MdiIcons.yahoo,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo googleChrome(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
           icon: MdiIcons.googleChrome,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo googleDrive(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoGradient: MdiStyle.mix2GradientSample(
@@ -901,37 +1330,37 @@ class MdiLogo extends StatelessWidget {
           logoShape: shape,
           iconColor: Colors.indigo,
           icon: MdiIcons.googleDrive,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo googleMaps(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
           icon: MdiIcons.googleMaps,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo github(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.black,
           icon: MdiIcons.github,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo gitlab(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
           shapeColor: Colors.redAccent,
           icon: MdiIcons.gitlab,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo facebookMessenger(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -939,10 +1368,10 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.blue,
           shapeColor: Colors.white,
           icon: MdiIcons.facebookMessenger,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo weChat(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -950,10 +1379,10 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.blue,
           shapeColor: Colors.white,
           icon: MdiIcons.wechat,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo wordPress(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -961,10 +1390,21 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.blue,
           shapeColor: Colors.white,
           icon: MdiIcons.wordpress,
-          logoData: logoData);
+          iconLogoData: logoData);
+
+  static MdiLogo adobe(
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
+      MdiLogo.shapedIconLogo(
+          borderWidth: borderWidth,
+          logoShape: shape,
+          iconColor: Colors.red,
+          borderColor: Colors.white,
+          shapeColor: Colors.white,
+          icon: MdiIcons.adobe,
+          iconLogoData: logoData);
 
   static MdiLogo email(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -972,10 +1412,10 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.red,
           shapeColor: Colors.white,
           icon: MdiIcons.email,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo safari(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -983,10 +1423,10 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.green,
           shapeColor: Colors.white,
           icon: MdiIcons.appleSafari,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo abjadArabic(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -994,10 +1434,10 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.red,
           shapeColor: Colors.white,
           icon: MdiIcons.abjadArabic,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo scriptText(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -1005,10 +1445,10 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.blue,
           shapeColor: Colors.white,
           icon: MdiIcons.scriptText,
-          logoData: logoData);
+          iconLogoData: logoData);
 
   static MdiLogo ubuntu(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
+          {LogoShape shape, double borderWidth, IconShapeLogoData logoData}) =>
       MdiLogo.shapedIconLogo(
           borderWidth: borderWidth,
           logoShape: shape,
@@ -1016,49 +1456,29 @@ class MdiLogo extends StatelessWidget {
           borderColor: Colors.blue,
           shapeColor: Colors.white,
           icon: MdiIcons.ubuntu,
-          logoData: logoData);
+          iconLogoData: logoData);
 
-//x360,
-  static MdiLogo oralB(
-          {BoxShape shape, double borderWidth, IconShapeLogo logoData}) =>
-      MdiLogo.shapedIconLogo(
-          borderWidth: borderWidth,
-          logoShape: shape,
-          shapeColor: Colors.black,
-          icon: MdiIcons.apple,
-          logoData: logoData);
+  ///end IconShapeLogo Template Samples
 
-  static Widget combinedLogo({
-    LeadGravity leadGravity,
-    EdgeInsetsGeometry padding,
-    Widget lead,
-    Widget content,
-    double gap,
-    MainAxisAlignment mainAxisAlignment = MainAxisAlignment.center,
-  }) =>
-      CombinedLogo(
-        leadGravity,
-        padding,
-        lead,
-        content,
-        gap: gap,
-        mainAxisAlignment: mainAxisAlignment,
-      );
-
-  static Widget microsoftXBox(
+  /// DoubleLogo Template sample
+  static MdiLogo microsoftXBox(
           {MdiLogo content,
           MdiLogo lead,
           double gap,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
+          PlainTextLogo contentData,
+          IconShapeLogoData leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         gap: gap,
         leadGravity: LeadGravity.start,
         content: content ??
             MdiLogo.plainText(
+                plainTextData: contentData,
                 fontFamily: 'x360',
+                package: 'materialdesignlogo',
                 text: TextAsset.xBox,
                 fontSize: 43,
                 textShadows: ShadowAsset.singleShadow(
@@ -1067,25 +1487,29 @@ class MdiLogo extends StatelessWidget {
                 fontColor: Colors.green),
         lead: lead ??
             MdiLogo.shapedIconLogo(
+              iconLogoData: leadData,
               icon: MdiIcons.microsoftXbox,
               iconColor: Colors.white,
               shapeColor: Colors.green,
             ),
       );
 
-  static Widget microsoftCombined(
+  static MdiLogo microsoftCombined(
           {MdiLogo content,
           MdiLogo lead,
           double gap,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
+          PlainTextLogo contentData,
+          IconShapeLogoData leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         gap: gap,
         leadGravity: LeadGravity.start,
         content: content ??
             MdiLogo.plainText(
+                plainTextData: contentData,
                 fontSize: 30,
                 textShadows: ShadowAsset.singleShadow(
                     shadowColor: Colors.grey[700], dx: -1, dy: 1),
@@ -1093,27 +1517,34 @@ class MdiLogo extends StatelessWidget {
                 fontColor: Colors.green),
         lead: lead ??
             MdiLogo.shapedIconLogo(
+              iconLogoData: leadData,
               icon: MdiIcons.microsoftWindowsClassic,
               iconColor: Colors.green,
               shapeColor: Colors.white,
             ),
       );
 
-  static Widget adobe(
+  static MdiLogo adobeCombined(
           {MdiLogo content,
           MdiLogo lead,
           double gap,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
+          PlainTextLogo contentData,
+          IconShapeLogoData leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         gap: gap,
         leadGravity: LeadGravity.top,
         content: content ??
-            MdiLogo.plainText(text: TextAsset.adobe, fontColor: Colors.black),
+            MdiLogo.plainText(
+                plainTextData: contentData,
+                text: TextAsset.adobe,
+                fontColor: Colors.black),
         lead: lead ??
             MdiLogo.shapedIconLogo(
+              iconLogoData: leadData,
               icon: MdiIcons.adobe,
               iconColor: Colors.red,
               shapeColor: Colors.white,
@@ -1121,217 +1552,243 @@ class MdiLogo extends StatelessWidget {
             ),
       );
 
-  static Widget androidCombine(
+  static MdiLogo androidCombine(
           {MdiLogo content,
           MdiLogo lead,
           double gap,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
+          PlainTextLogo contentData,
+          IconShapeLogoData leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
-        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-        gap: gap ?? 0,
-        leadGravity: LeadGravity.top,
-        content: content ??
-            MdiLogo.plainText(
-              textShadows: ShadowAsset.singleShadow(),
-              text: 'ANDROID',
-              fontColor: Colors.white,
-              fontFamily: 'Droid',
-            ),
-        lead: lead ??
-            Icon(
-              MdiIcons.android,
-              color: Colors.green,
-              size: 53,
-            ),
-      );
+      MdiLogo.doubleLogo(
+          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+          gap: gap ?? 0,
+          leadGravity: LeadGravity.top,
+          content: content ??
+              MdiLogo.plainText(
+                plainTextData: contentData,
+                textShadows: ShadowAsset.singleShadow(),
+                text: 'ANDROID',
+                fontColor: Colors.white,
+                fontFamily: 'Droid',
+                package: 'materialdesignlogo',
+              ),
+          lead: lead ??
+              MdiLogo.shapedIconLogo(
+                noShape: true,
+                icon: leadData?.icon ?? MdiIcons.android,
+                iconColor: leadData?.iconColor ?? Colors.green,
+                iconSize: leadData?.iconSize ?? 53,
+              ));
 
-  static Widget mdiLogo(
+  static MdiLogo mdiLogo(
           {MdiLogo content,
           MdiLogo lead,
           double gap,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
+          PlainTextLogo contentData,
+          IconShapeLogoData leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
         gap: gap,
         leadGravity: leadGravity ?? LeadGravity.start,
         content: content ??
             MdiLogo.plainText(
+              plainTextData: contentData,
               textAlign: TextAlign.start,
               textSpans: TextSpanAsset.mdiLogoTexts(),
             ),
         lead: lead ??
             MdiLogo.shapedIconLogo(
+              iconLogoData: leadData,
               icon: MdiIcons.materialDesign,
               shapeColor: Colors.pink,
               borderWidth: 1,
-              logoShape: BoxShape.rectangle,
+              logoShape: LogoShape.regularRectangle,
               shapeRadius: BorderRadius.circular(8),
-              shapeShadow: [
-                BoxShadow(color: Colors.grey[700], offset: Offset(-1.5, 2)),
-              ],
             ),
       );
 
-  static Widget linkedlnCombine(
+  static MdiLogo linkedlnCombine(
           {MdiLogo content,
           MdiLogo lead,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
           double gap,
+          PlainTextLogo contentData,
+          TextShapeLogo leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         gap: gap,
         leadGravity: leadGravity ?? LeadGravity.end,
         content: content ??
             MdiLogo.plainText(
+              plainTextData: contentData,
               text: 'Linked',
               fontSize: 43,
               fontColor: Colors.black,
             ),
         lead: lead ??
             MdiLogo.linkedln(
+              textShapeData: leadData,
               fontSize: 37,
               plainLogo: false,
               borderWidth: 1,
             ),
       );
 
-  static Widget facebookCombine(
+  static MdiLogo facebookCombine(
           {MdiLogo content,
           MdiLogo lead,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
           double gap,
+          PlainTextLogo contentData,
+          TextShapeLogo leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         gap: gap,
         leadGravity: leadGravity ?? LeadGravity.start,
         content: content ??
-            MdiLogo.facebook(plainLogo: true, fontColor: Colors.black),
+            MdiLogo.facebook(
+                textData: contentData,
+                plainLogo: true,
+                fontColor: Colors.black),
         lead: lead ??
             MdiLogo.facebook(
-fontSize: 45,
+              textShapeData: leadData,
+              fontSize: 45,
               plainLogo: false,
               borderWidth: 1,
             ),
       );
 
-  static Widget instagramCombine(
+  static MdiLogo youtubeCombine(
+          {MdiLogo content,
+          MdiLogo lead,
+          MainAxisAlignment mainAxisAlignment,
+          LeadGravity leadGravity,
+          double gap,
+          PlainTextLogo contentData,
+          TextShapeLogo leadData,
+          EdgeInsetsGeometry padding}) =>
+      MdiLogo.doubleLogo(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+        gap: gap,
+        leadGravity: leadGravity ?? LeadGravity.end,
+        content: content ??
+            MdiLogo.plainText(
+                text: 'You',
+                fontFamily: 'Marvel',
+                letterSpacing: 1,
+                package: 'materialdesignlogo',
+                plainTextData: contentData,
+                fontSize: 35,
+                fontColor: Colors.grey[800]),
+        lead: lead ??
+            MdiLogo.shapedTextLogo(
+              text: 'Tube',
+              padding: EdgeInsets.all(4),
+              logoGradient: MdiStyle.colorGradientSample1(rawColor: Colors.red),
+              textShapeData: leadData,
+              fontSize: 55,
+              elevation: 1.2,
+              textHeight: 1.2,
+              fontFamily: 'Marvel',
+              package: 'materialdesignlogo',
+              logoShape: LogoShape.roundedRectangle,
+              shapeRadius: BorderRadius.circular(12),
+              borderWidth: 0,
+            ),
+      );
+
+  static MdiLogo instagramCombine(
           {MdiLogo content,
           MdiLogo lead,
           double gap,
           MainAxisAlignment mainAxisAlignment,
           LeadGravity leadGravity,
+          PlainTextLogo contentData,
+          IconShapeLogoData leadData,
           EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
+      MdiLogo.doubleLogo(
         gap: gap,
         leadGravity: leadGravity ?? LeadGravity.start,
         content: content ??
             MdiLogo.plainText(
+              plainTextData: contentData,
               fontColor: Colors.black,
               fontWeight: FontWeight.w200,
               fontSize: 43,
               fontFamily: 'Billabong',
+              package: 'materialdesignlogo',
               fontStyle: FontStyle.normal,
               text: "Instagram",
               textShadows: ShadowAsset.singleShadow(),
               textAlign: TextAlign.center,
-            ).padOnly(top: 18),
-        lead: lead ?? MdiLogo.instagram(),
+            ),
+        lead: lead ?? MdiLogo.instagram(iconLogoData: leadData),
       );
 
-  static Widget combineMdiSample(
-          {MdiLogo content,
-          MdiLogo lead,
-          double gap,
-          MainAxisAlignment mainAxisAlignment,
-          LeadGravity leadGravity,
-          EdgeInsetsGeometry padding}) =>
-      MdiLogo.combinedLogo(
-        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-        gap: gap,
-        leadGravity: LeadGravity.start,
-        content: content ??
-            combinePlainTextSample(
+  static MdiLogo combineMdiSample(
+      {MdiLogo content,
+      MdiLogo lead,
+      double gap: 0,
+      MainAxisAlignment mainAxisAlignment,
+      LeadGravity leadGravity,
+      PlainTextLogo contentData,
+      TextShapeLogo leadData,
+      EdgeInsetsGeometry padding}) {
+    var logoShape = leadData?.shape ?? LogoShape.circle;
+    var isCircleShape = logoShape == LogoShape.circle;
+    return MdiLogo.doubleLogo(
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+      gap: gap,
+      leadGravity: LeadGravity.start,
+      content: content ??
+          MdiLogo.plainText(
+            plainTextData: contentData,
+//            textAlign: TextAlign.start,
+            text: 'Design',
+            textStyle: TextStyle(
               decorationThickness: 1.2,
-            ).padOnly(top: 0),
-        lead: lead ?? combineTextShapeSample(),
-      );
-
-  static MdiLogo combinePlainTextSample({
-    text: 'Design',
-    List<Shadow> textShadows,
-    double fontSize: 28.0,
-    double height: 2.0,
-    double letterSpacing: -2,
-    fontFamily: 'JosefinSans',
-    fontWeight: FontWeight.w500,
-    fontColor,
-    textDecorationStyle: TextDecorationStyle.double,
-    decorationThickness: 1.0,
-    textDecoration: TextDecoration.underline,
-  }) {
-    final textColor = fontColor ?? Colors.grey[900];
-    return MdiLogo.plainText(
-      text: text,
-      textStyle: TextStyle(
-        height: height,
-        fontSize: fontSize,
-        letterSpacing: letterSpacing,
-        fontFamily: fontFamily,
-        decoration: textDecoration,
-//        shadows:
-//            textShadows ?? ShadowAsset.singleShadow(shadowColor: Colors.black,dx:-2,dy:4),
-        decorationThickness: decorationThickness,
-        fontWeight: fontWeight,
-        decorationStyle: textDecorationStyle,
-        decorationColor: textColor,
-        color: textColor,
-      ),
+              fontSize: 28.0,
+              height: 2.0,
+              letterSpacing: -2,
+              package: 'materialdesignlogo',
+              fontFamily: 'JosefinSans',
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[900],
+              decorationStyle: TextDecorationStyle.double,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+      lead: lead ??
+          MdiLogo.shapedTextLogo(
+            textShapeData: leadData,
+            padding: padding ?? EdgeInsets.only(top: 8, left: 6),
+            width: (isCircleShape ? null : 100),
+            height: (isCircleShape ? null : 50),
+            fontSize: isCircleShape ? 30 : 36,
+            letterSpacing: -1.2,
+            fontFamily: 'Marvel',
+//            textAlign: TextAlign.start,
+            package: 'materialdesignlogo',
+            text: (isCircleShape ? 'LOGO' : 'MdiLOGO'),
+            fontWeight: FontWeight.w500,
+            fontColor: Colors.white,
+            shapeColor: Colors.red,
+            logoShape: logoShape,
+          ),
     );
   }
 
-  static MdiLogo combineTextShapeSample(
-      {double height,
-      double width,
-      padding,
-      shapeShadow,
-      double fontSize,
-      double letterSpacing,
-      fontFamily,
-      text,
-      FontWeight fontWeight,
-      fontColor,
-      shapeColor,
-      List<Shadow> textShadows,
-      shape}) {
-    var logoShape = shape ?? BoxShape.circle;
-    var isCircleShape = logoShape == BoxShape.circle;
-    return MdiLogo.shapeWidget(
-      padding: padding ?? EdgeInsets.only(top: 8, left: 6),
-      width: width ?? (isCircleShape ? null : 100),
-      height: height ?? (isCircleShape ? null : 50),
-      shapeShadow: shapeShadow ??
-          ShadowAsset.singleShadow(dx: -1, dy: 2, shadowColor: Colors.black26),
-      widget: MdiLogo.plainText(
-          textShadows: textShadows,
-          fontSize: fontSize ?? isCircleShape ? 30 : 36,
-          letterSpacing: letterSpacing ?? -1.2,
-          fontFamily: fontFamily ?? 'Marvel',
-          text: text ?? (isCircleShape ? 'LOGO' : 'MdiLOGO'),
-          fontWeight: fontWeight ?? FontWeight.w500,
-          fontColor: fontColor ?? Colors.white),
-      shapeColor: shapeColor ?? Colors.red,
-      logoShape: logoShape,
-    );
-  }
-
+  /// end DoubleLogo Template sample
   final LogoProvider logo;
   final String text;
   final TextStyle textStyle;
@@ -1347,13 +1804,13 @@ fontSize: 45,
   final FontStyle fontStyle;
   final String fontFamily;
   final List<Shadow> textShadows;
-  final BoxShape logoShape;
+  final LogoShape logoShape;
   final Decoration decoration;
   final BorderRadiusGeometry shapeRadius;
   final Color borderColor;
   final Color shapeColor;
   final double borderWidth;
-  final List<BoxShadow> shapeShadow;
+  final Color shadowColor;
   final TextAlign textAlign;
   final EdgeInsetsGeometry padding;
   final Widget widget;
@@ -1362,17 +1819,76 @@ fontSize: 45,
   final Color iconColor;
   final double iconSize;
   final double textHeight;
+  final LeadGravity leadGravity;
+  final MdiLogo lead;
+  final MdiLogo content;
+  final InkWellGesture inkWellGesture;
 
-  static bool isCircle(BoxShape logoShape) => logoShape == BoxShape.circle;
+  static bool isCircle(LogoShape logoShape) => logoShape == LogoShape.circle;
 
   @override
   Widget build(BuildContext context) {
-    return logo is ShapeLogo
-        ? (logo as ShapeLogo).shapedWidget()
-        : (logo.alignment() == TextAlign.center
-            ? Center(child: logo.child())
-            : logo.child());
+    return logo.sizedChild();
   }
+}
+
+enum LogoShape {
+  bevelRectangle,
+  regularRectangle,
+  roundedRectangle,
+  circle,
+}
+
+class InkWellGesture {
+  GestureTapCallback onTap;
+  GestureTapCallback onDoubleTap;
+  GestureLongPressCallback onLongPress;
+  GestureTapDownCallback onTapDown;
+  GestureTapCancelCallback onTapCancel;
+  ValueChanged<bool> onHighlightChanged;
+  ValueChanged<bool> onHover;
+  MouseCursor mouseCursor;
+  Color focusColor;
+  Color hoverColor;
+  Color highlightColor;
+  MaterialStateProperty<Color> overlayColor;
+  Color splashColor;
+  InteractiveInkFeatureFactory splashFactory;
+  double radius;
+  BorderRadius borderRadius;
+  ShapeBorder customBorder;
+  bool enableFeedback = true;
+  bool excludeFromSemantics = false;
+  FocusNode focusNode;
+  bool canRequestFocus = true;
+  ValueChanged<bool> onFocusChange;
+  bool autofocus = false;
+
+  InkWellGesture({
+    this.onTap,
+    this.onDoubleTap,
+    this.onLongPress,
+    this.onTapDown,
+    this.onTapCancel,
+    this.onHighlightChanged,
+    this.onHover,
+    this.mouseCursor,
+    this.focusColor,
+    this.hoverColor,
+    this.highlightColor,
+    this.overlayColor,
+    this.splashColor: Colors.black,
+    this.splashFactory,
+    this.radius,
+    this.borderRadius,
+    this.customBorder,
+    this.enableFeedback,
+    this.excludeFromSemantics,
+    this.focusNode,
+    this.canRequestFocus,
+    this.onFocusChange,
+    this.autofocus,
+  });
 }
 
 extension AutoShapeExt1<T> on TextRange {
@@ -1392,45 +1908,6 @@ extension AutoShape4<V, T, X> on Map<V, T> {
     result.addAll(otherMap);
     return result;
   }
-
-  Map<V, T> splitKeysToIndexes(String text) {
-    Map<V, T> result = {};
-    if (this != null) {
-      for (V mapKey in this.keys) {
-        var length = (mapKey is String) ? mapKey.length : 1;
-        print('length is $length');
-        if (mapKey is List<int>) {
-          for (int i in mapKey) {
-            result[i as V] = this[mapKey];
-          }
-        } else if (length > 1) {
-          if (mapKey == ALL_TEXT_KEY) {
-            for (int x = 0; x < text.length; x++) {
-              result[x as V] = this[mapKey];
-            }
-          } else
-            for (var i = 0; i < length; i++) {
-              var char = (mapKey as String)[i];
-              for (int x = 0; x < text.length; x++) {
-                int no = text.indexOf(char, x);
-                if (no != -1) {
-                  V index = no as V;
-                  result[index] = this[mapKey];
-                } else {
-                  break;
-                }
-              }
-            }
-        } else {
-          if (mapKey is String)
-            result[text.indexOf(mapKey) as V] = this[mapKey];
-          else
-            result[mapKey] = this[mapKey];
-        }
-      }
-    }
-    return result;
-  }
 }
 
 extension AutoShapeExt2<T> on String {
@@ -1440,52 +1917,6 @@ extension AutoShapeExt2<T> on String {
     return i;
   }
 }
-//  Text richText(
-//          {TextStyle textStyle,
-//          double fontSize,
-//          double letterSpacing,
-//          List<Shadow> textShadows,
-//          TextAlign textAlign,
-//          FontWeight fontWeight,
-//          String fontFamily,
-//          Color fontColor,
-//          FontStyle fontStyle,
-//          List<InlineSpan> textSpans}) =>
-//      Text.rich(TextSpan(
-//          style: fontStyle ??
-//              TextStyle(
-//                shadows: textShadows,
-//                color: fontColor,
-//                fontSize: fontSize,
-//                fontWeight: fontWeight ?? FontWeight.bold,
-//                fontStyle: fontStyle ?? FontStyle.normal,
-//                fontFamily: fontFamily,
-//                letterSpacing: letterSpacing,
-//              )));
-//
-//  InlineSpan textSpan(
-//          {TextStyle textStyle,
-//          double fontSize,
-//          double letterSpacing,
-//          List<Shadow> textShadows,
-//          TextAlign textAlign,
-//          FontWeight fontWeight,
-//          String fontFamily,
-//          Color fontColor,
-//          FontStyle fontStyle,
-//          List<InlineSpan> children}) =>
-//      TextSpan(
-//          style: fontStyle ??
-//              TextStyle(
-//                shadows: textShadows,
-//                color: fontColor,
-//                fontSize: fontSize,
-//                fontWeight: fontWeight ?? FontWeight.bold,
-//                fontStyle: fontStyle ?? FontStyle.normal,
-//                fontFamily: fontFamily,
-//                letterSpacing: letterSpacing,
-//              ));
-//}
 
 extension AutoShapeExt4<T, V> on T {
   Map<dynamic, T> forUnit<V>(V key) {
@@ -1536,8 +1967,20 @@ extension MapAnyExt<T> on T {
 }
 
 extension ListWidgetExt on List<Widget> {
-  Row row({MainAxisAlignment mainAxisAlignment})=> Row(mainAxisAlignment:mainAxisAlignment,children: this,);
+  Row row({MainAxisAlignment mainAxisAlignment}) => Row(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
+        children: this,
+      );
 }
+
+extension ListMdiLogoExt on List<MdiLogo> {
+  List<MdiLogo> operator *(int frequency) {
+    List<MdiLogo> list = List<MdiLogo>();
+    for (int i = 0; i < frequency; i++) list.addAll(this);
+    return list;
+  }
+}
+
 extension WidgetExt on Widget {
   Widget get center {
     return Center(child: this);
@@ -1627,5 +2070,3 @@ extension WidgetExt on Widget {
     );
   }
 }
-
-const ALL_TEXT_KEY = '&#*/@%*)(_+_)#*&@#@';
