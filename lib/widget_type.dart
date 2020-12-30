@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:materialdesignlogo/assets/sizes.dart';
-import 'package:materialdesignlogo/assets/strings.dart';
 import 'package:materialdesignlogo/assets/style.dart';
 import 'package:materialdesignlogo/materialdesignlogo.dart';
 

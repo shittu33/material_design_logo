@@ -320,7 +320,7 @@ This will wrap any logo type supported by materialdesignlogo Package in
     );
  ```
  let's create another example to wrap labeledLogo and pass it to a dialog
-like a normal Dialog for sharing content to other Apps on your device  we have shaped ,
+like a normal Dialog for sharing content to other Apps on your device  we have shaped widget
  at the top and label at the bottom:
 
  ```dartCHANGELOG.md
